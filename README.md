@@ -18,3 +18,16 @@ Everytime you want to run the project, run this command to activate/deactivate t
 ```bash
 . ./setup.bash
 ```
+
+### Develop environment
+
+Setup Git hooks by running this command
+```bash
+git config core.hooksPath .githooks
+```
+
+Run the activate command
+
+```bash
+. ./setup.bash
+```

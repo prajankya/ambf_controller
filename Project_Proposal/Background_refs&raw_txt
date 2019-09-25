@@ -1,0 +1,20 @@
+References 
+https://github.com/WPI-AIM/ambf/wiki AMBF
+http://sdformat.org/    sdf
+http://gazebosim.org/   gazebo
+https://www.mathworks.com/help/physmod/sm/ug/urdf-model-import.html URDF
+https://wiki.blender.org/wiki/Source/Animation/IK ITasc
+https://www.youtube.com/watch?v=9REJVK1mwEU&t=0s ambfYT
+https://new.abb.com/products/robotics/industrial-robots/irb-120 IRB120
+https://new.abb.com/products/robotics/industrial-robots/irb-360  IRB360
+
+
+{T}{his} project is a body of work tasked with the goal of furthering the capabilities of the Asynchronous Multi-Body Framework Simulator, or AMBF, developed by Adnan Munawar of the WPI AIM (Worcester Polytechnic Institute Automation and Interventional Medicine) laboratory.\cite{ambf}
+\\
+\\A number of robotic simulators already exist in the space. The Gazebo Robot Simulator uses the SDF robot format\cite{sdf} \cite{gazebo}. URDF is another robot description format that can simulate bodies in Simscape or other ROS compatible environments \cite{urdf}. Other tools like Blender, which are classically used for animation and simulation have kinematics plugins that have been developed to allow for accurate robotic arm simulations\cite{blender}. 
+\\
+\\The AMBF Simulator does a number of things that other formats don't fully implement and currently possesses a number of useful features such as individual joint feedback, simulation support for a wide array of robot styles, hardware control integration, and a number of other features\cite{AMBFYT}.
+\\
+\\One capability that none of the previously mentioned formats or simulators have is generalized inverse kinematics calculations. Some of the simulators have certain solvers such as the ITaSC solver plug-in for Blender\cite{ITasc} to solve IK (Inverse Kinematics) for robots or other python plug-ins or solvers for FK (Forward Kinematics). But many have a large number of limitations like being limited to explicit robot configurations. The goal of this project would be to take the robot configuration as provided by the YAML file and create a generalized Inverse Kinematics solver for the AMBF platform and in order to accomplish this we will first create a solver for known robot configurations in the form of the ABB IRB 120 \cite{IRB120} which will give us serial manipulator methods, and the ABB IRB 360 \cite{IRB360} which will provide a base for parallel configuration methods. 
+\\
+\\ Once we have a solver for these know configurations, we hope to generalize the solver to work for a wide range of input robot configurations. The following proposal will detail the proposed methods to accomplish that.

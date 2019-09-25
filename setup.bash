@@ -5,7 +5,7 @@ if [ ! -d ".env" ]; then
   printf "\n"
 
   virtualenv -p python3 .env
-  pip install -r requirements.txt
+  pip3 install -r requirements.txt
 
   printf "\n\n\n"
 fi

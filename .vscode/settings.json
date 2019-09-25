@@ -1,0 +1,5 @@
+{
+    "python.pythonPath": ".env/bin/python3.5",
+    "editor.formatOnSave": true,
+    "editor.renderWhitespace": "all"
+}

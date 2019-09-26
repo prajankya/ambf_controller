@@ -8,10 +8,18 @@ https://www.youtube.com/watch?v=9REJVK1mwEU&t=0s ambfYT
 https://new.abb.com/products/robotics/industrial-robots/irb-120 IRB120
 https://new.abb.com/products/robotics/industrial-robots/irb-360  IRB360
 
+[shigley] J.E. Shigley, J.J. Uicher, Theory of Machines and Mechanisms, McGraw-Hill Companies, Inc., New York, 1980. 
+[2] E.F. Ficher, A Stewart platform-based manipulator: general theory and practical construction, The International Journal of Robotics Research 5 (1986) 157–182. 
+[mccarthy] J.M. McCarthy, An Introduction to Theoretical Kinematics, MIT Press, Cambridge, MA, 1990. 
+[uicher] H.-S. Yan, C.-H. Kuo, Topological representations and characteristics of variable kinematic joints, Journal of Mechanical Design 128 (2006) 384–391. 
 
-{T}{his} project is a body of work tasked with the goal of furthering the capabilities of the Asynchronous Multi-Body Framework Simulator, or AMBF, developed by Adnan Munawar of the WPI AIM (Worcester Polytechnic Institute Automation and Interventional Medicine) laboratory.\cite{ambf}
+
+
+\IEEEPARstart{T}{his} project is a body of work tasked with the goal of furthering the capabilities of the Asynchronous Multi-Body Framework Simulator, or AMBF, developed by Adnan Munawar of the WPI AIM (Worcester Polytechnic Institute Automation and Interventional Medicine) laboratory.\cite{ambf}
 \\
 \\A number of robotic simulators already exist in the space. The Gazebo Robot Simulator uses the SDF robot format\cite{sdf} \cite{gazebo}. URDF is another robot description format that can simulate bodies in Simscape or other ROS compatible environments \cite{urdf}. Other tools like Blender, which are classically used for animation and simulation have kinematics plugins that have been developed to allow for accurate robotic arm simulations\cite{blender}. 
+\\
+\\ Many of these simulators are based off of the mechanical method and formulas for solving robotic kinematics. A number of general manipulator kinematics studies have been published that have advanced the field such as ones by McCarthy\cite{mccarthy}, Shigley\cite{shigley}, and Uicher, Ficher, and Yan\cite{uicher}.
 \\
 \\The AMBF Simulator does a number of things that other formats don't fully implement and currently possesses a number of useful features such as individual joint feedback, simulation support for a wide array of robot styles, hardware control integration, and a number of other features\cite{AMBFYT}.
 \\

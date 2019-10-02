@@ -16,6 +16,8 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   trac_ik_lib
+  ambf_msgs
+  ambf_comm
 )
 
 ## System dependencies are found with CMake's conventions
@@ -110,7 +112,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES ambf_controller
-#  CATKIN_DEPENDS roscpp rospy trac_ik_lib
+#  CATKIN_DEPENDS roscpp rospy trac_ik_lib ambf_msgs ambf_comm
 #  DEPENDS system_lib
 )
 

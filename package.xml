@@ -53,17 +53,20 @@
   <build_depend>rospy</build_depend>
   <build_depend>ambf_comm</build_depend>
   <build_depend>ambf_msgs</build_depend>
-  <build_depend>python-yaml</build_depend>
+
   <build_export_depend>roscpp</build_export_depend>
   <build_export_depend>rospy</build_export_depend>
   <build_export_depend>ambf_comm</build_export_depend>
   <build_export_depend>ambf_msgs</build_export_depend>
-  <build_export_depend>python-yaml</build_export_depend>
+
   <exec_depend>roscpp</exec_depend>
   <exec_depend>rospy</exec_depend>
   <exec_depend>ambf_comm</exec_depend>
   <exec_depend>ambf_msgs</exec_depend>
+
   <exec_depend>python-yaml</exec_depend>
+  <exec_depend>python-click</exec_depend>
+  <exec_depend>python-colorama</exec_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

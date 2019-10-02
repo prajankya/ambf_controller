@@ -9,9 +9,9 @@ from ambf_client import Client  # Import the Client from ambf_client package
 
 # ----------------------------------------------------------------------- Initializations
 # Use rospack to get absolute path of file
-rospack = rospkg.RosPack()
-YAML_FILEPATH = os.path.join(rospack.get_path(
-    'ambf_controller'), "example_robots", "blender-kuka.yaml")
+# rospack = rospkg.RosPack()
+# YAML_FILEPATH = os.path.join(rospack.get_path(
+#     'ambf_controller'), "example_robots", "blender-kuka.yaml")
 
 # Create a instance of the client
 _client = Client()

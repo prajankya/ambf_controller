@@ -1,4 +1,4 @@
-# FK-IK4ambf
+# ambf_controller
 RBE501 course project: Team 10
 
 
@@ -12,8 +12,8 @@ Now run below to install this repository
 ```bash
 cd catkin_ws/src
 git clone https://github.com/prajankya/ambf_controller.git
-rosdep install --from-paths ./src/ambf_controller/libs/** --ignore-src
-rosdep install --from-paths ./src/ambf_controller --ignore-src
+rosdep install --from-paths ./ambf_controller/libs/** --ignore-src
+rosdep install --from-paths ./ambf_controller --ignore-src
 catkin_make
 ```
 

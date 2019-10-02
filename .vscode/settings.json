@@ -1,5 +1,8 @@
 {
     "python.pythonPath": ".env/bin/python3.5",
     "editor.formatOnSave": true,
-    "editor.renderWhitespace": "all"
+    "editor.renderWhitespace": "all",
+    "python.linting.pylintEnabled": false,
+    "python.linting.pep8Enabled": true,
+    "python.linting.enabled": true
 }

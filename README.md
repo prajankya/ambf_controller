@@ -3,31 +3,13 @@ RBE501 course project: Team 10
 
 
 ## Install
-(Development was done on Ubuntu 16.04, but as sourcecode is in python, it can run on any platform python is supported. Please report with bugs, so that we can add support to the same.)
-
-If you do not have `virtualenv` already installed, you can install with the following command.
 
 ```bash
-sudo pip3 install virtualenv
+rosdep install --from-paths ./libs/** --ignore-src
+rosdep install --from-paths . --ignore-src
 ```
 
 ### Running
 
-Everytime you want to run the project, run this command to activate/deactivate the `Virtual Environment`
-
-```bash
-. ./setup.bash
-```
 
 ### Develop environment
-
-Setup Git hooks by running this command
-```bash
-git config core.hooksPath .githooks
-```
-
-Run the activate command
-
-```bash
-. ./setup.bash
-```

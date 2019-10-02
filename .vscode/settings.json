@@ -1,4 +1,5 @@
 {
     "editor.formatOnSave": true,
     "editor.renderWhitespace": "all",
+    "python.pythonPath": "/usr/bin/python",
 }

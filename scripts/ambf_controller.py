@@ -13,7 +13,7 @@ from ambf_client import Client  # Import the Client from ambf_client package
 from colorama import Fore, Back, Style, init
 
 from ambf_solver import Solver
-from ambf_solver import SolverCollection
+from ambf_solver import _SolverCollection
 
 # =============================================================================== Initializations
 rospack = rospkg.RosPack()
@@ -78,11 +78,15 @@ if __name__ == '__main__':
     #     print(name)
     #     importlib.import_module('.' + name, __package__)
     # print(ambf_solver)
-    my_solvers = SolverCollection('solvers')
-    # all_my_base_classes = {
-    #     cls.__name__: cls for cls in Solver.__subclasses__()}
-
-    # print(all_my_base_classes)
+    my_solvers = _SolverCollection('solvers')
+    # for cls in Solver.__subclasses__():
+    #     # print(cls.getName())
+    #     print(cls.__metaclass__)
+    all_my_base_classes = {
+        cls.__name__.upper(): cls for cls in Solver.__subclasses__()}
+    clses = my_solvers.getAll()
+    print(clses)
+    print(all_my_base_classes)
 
     # all_my_base_classes = {
     #     cls.__name__: cls for cls in solvers._MyBase.__subclasses__()}

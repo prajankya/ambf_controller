@@ -1,6 +1,7 @@
 from abc import ABCMeta, abstractmethod
 import inspect
 import os
+import sys
 import pkgutil
 
 
@@ -10,10 +11,11 @@ class Solver(object):
     """
     __metaclass__ = ABCMeta
 
-    def __init__(self, name):
+    def __init__(self):
         # capitalize name, add to list
-        self.name = name
+        # self._name = name
         #  | 'UNKNOWN'
+        pass
 
     @abstractmethod
     def perform_operation(self, argument):
@@ -23,7 +25,7 @@ class Solver(object):
         raise NotImplementedError
 
 
-class SolverCollection(object):
+class _SolverCollection(object):
     """Upon creation, this class will read the solvers package for modules
     that contain a class definition that is inheriting from the Solver class
     """
@@ -32,36 +34,30 @@ class SolverCollection(object):
         """Constructor that initiates the reading of all available solvers
         when an instance of the SolversCollection object is created
         """
-        self.solver_package = solver_package
-        self.reload_solvers()
+        self._solver_package = solver_package
+        self._reload_solvers()
 
-    def reload_solvers(self):
+    def getAll(self):
+        # all_classes = {
+        #     cls.__name__.upper(): cls for cls in __import__(self._solver_package).__subclasses__()}
+        return self._classes
+
+    def _reload_solvers(self):
         """Reset the list of all solvers and initiate the walk over the main
         provided solver package to load all available solvers
         """
         self.solvers = []
         self.seen_paths = []
         print('Looking for solvers under package ')
-        print(self.solver_package)
-        self.walk_package(self.solver_package)
-
-    def apply_all_solvers_on_value(self, argument):
-        """Apply all of the solvers on the argument supplied to this function
-        """
-        print('Applying all solvers on value')
-        print(argument)
-        for solver in self.solvers:
-            print('Applying')
-            print(solver.name)
-            print('on value')
-            print(argument)
-            print(' yields value ')
-            print(solver.perform_operation(argument))
+        print(self._solver_package)
+        self.walk_package(self._solver_package)
 
     def walk_package(self, package):
         """Recursively walk the supplied package to retrieve all solvers
         """
         imported_package = __import__(package, fromlist=['blah'])
+
+        self._classes = {}
 
         for _, solvername, ispkg in pkgutil.iter_modules(imported_package.__path__, imported_package.__name__ + '.'):
             if not ispkg:
@@ -72,6 +68,7 @@ class SolverCollection(object):
                     if issubclass(c, Solver) & (c is not Solver):
                         print('Found solver class:')
                         print(c.__module__+"."+c.__name__)
+                        self._classes[c.__name__.upper()] = c
 
         # Now that we have looked at all the modules in the current package, start looking
         # recursively for additional modules in sub packages

@@ -4,6 +4,8 @@ import os
 import sys
 import pkgutil
 
+from logger import logger as log
+
 
 class Solver(object):
     """Base class that each solver must inherit from. within this class
@@ -30,13 +32,12 @@ class _SolverCollection(object):
     that contain a class definition that is inheriting from the Solver class
     """
 
-    def __init__(self, solver_package, logger):
+    def __init__(self, solver_package):
         """Constructor that initiates the reading of all available solvers
         when an instance of the SolversCollection object is created
         """
         self._solver_package = solver_package
-        self._logger = logger
-        self.debug = self._logger.debug
+        self.log = log
         self._reload_solvers()
 
     def getAllSolvers(self):

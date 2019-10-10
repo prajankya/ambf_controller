@@ -14,6 +14,8 @@ from logger import logger as log
 # DEFAULT_YAML_FILEPATH = os.path.join(rospack.get_path(
 #     'ambf_controller'), "example_robots", "blender-kuka.yaml")
 
+# TODO : write a standalone YAML loader to map
+
 
 def readYaml(yaml_file):
 

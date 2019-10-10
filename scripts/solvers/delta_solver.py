@@ -1,4 +1,4 @@
-from ambf_solver import Solver
+from solver import Solver
 
 
 class Delta(Solver):  # this name would be used as identifier for type of robot "DELTA"

@@ -26,11 +26,16 @@ def connect_to_ambf_client():
     log.debug("List of Objects")
     log.debug(_client.get_obj_names())
 
+    base_links = []
     for name in _client.get_obj_names():
         if(name != "World" and name != 'world'):
             obj_hdl = _client.get_obj_handle(name)
             if obj_hdl.get_num_joints() > 0:
-                print("Found base link of a robot:"+obj_hdl.get_name())
+                print("Found base link of a robot:" + obj_hdl.get_name())
+                base_links.append(obj_hdl.get_name())
+
+    if len(base_links) == 0:
+        sys.exit(Fore.RED+"NO base links found in AMBF simulator.")
 
 
 # log.debug(obj_hdl.get_num_joints())

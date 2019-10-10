@@ -4,8 +4,8 @@ import click
 
 from colorama import Fore, Back, Style, init
 
-from ambf_solver import Solver
-from ambf_solver import _SolverCollection
+from solver import Solver
+from solver import _SolverCollection
 from read_yaml import readYaml
 from ambf_funcs import connect_to_ambf_client
 
@@ -38,7 +38,7 @@ def controller(yaml_file):
     # =============================================================================== Load Map
     # Getting Parent-child map
     if IS_STANDALONE:
-        readYaml(yaml_file)
+        readYaml(yaml_file)  # TODO : Yet to write the code
     else:
         connect_to_ambf_client()
 

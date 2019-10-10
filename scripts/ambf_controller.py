@@ -14,7 +14,7 @@ from colorama import Fore, Back, Style, init
 
 from ambf_solver import Solver
 from ambf_solver import _SolverCollection
-
+from read_yaml import readYaml
 # =============================================================================== Initializations
 rospack = rospkg.RosPack()
 YAML_FILEPATH = os.path.join(rospack.get_path(
@@ -60,6 +60,8 @@ def controller(yaml_file):
     # =============================================================================== Connect to AMBF simulator
     connect_ambf_client()
 
+    # readYaml(yaml_file, logger)
+
 
 def connect_ambf_client():
     # Create a instance of the client
@@ -78,6 +80,25 @@ def connect_ambf_client():
     logger.debug('\n\n----')
     logger.debug("List of Objects")
     logger.debug(_client.get_obj_names())
+
+    for name in _client.get_obj_names():
+        if(name != "World" and name != 'world'):
+            obj_hdl = _client.get_obj_handle(name)
+            if obj_hdl.get_num_joints() > 0:
+                print("Found base link of a robot:"+obj_hdl.get_name())
+
+
+# logger.debug(obj_hdl.get_num_joints())
+# # logger.debug(obj_hdl.get_name())
+# # logger.debug(obj_hdl.get_all_joint_pos())
+# logger.debug('\n\n----')
+# # logger.debug("List of Joints")
+# # logger.debug(obj_hdl.get_joint_names())
+
+# # logger.debug('\n\n----')
+# # logger.debug("List of Children Names")
+# # logger.debug(obj_hdl.get_children_names())
+# # logger.debug("-----------------")
 
 
 if __name__ == '__main__':

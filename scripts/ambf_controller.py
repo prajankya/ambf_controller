@@ -23,33 +23,41 @@ YAML_FILEPATH = os.path.join(rospack.get_path(
 # create logger
 logger = logging.getLogger(Fore.MAGENTA + 'AMBF_ctrl')
 
+# if is_verbose:
+logger.setLevel(logging.DEBUG)
+
+# create console handler and set level to debug
+ch = logging.StreamHandler()
+# if is_verbose:
+ch.setLevel(logging.DEBUG)
+
+# create formatter
+formatter = logging.Formatter(
+    "%(asctime)s - %(name)s - "+Fore.YELLOW+"%(levelname)s"+Fore.RESET+" - %(message)s")
+
+# add formatter to ch
+ch.setFormatter(formatter)
+
+# add ch to logger
+logger.addHandler(ch)
+
 # =============================================================================== CLI
 @click.command()
 @click.option('-r', '--robot_file', 'yaml_file', default=YAML_FILEPATH, help='Robot Yaml File path', type=click.Path(exists=True))
-@click.option('-d', '--verbose', 'is_verbose', default=True, is_flag=True, help="Will print verbose messages.")
-def controller(yaml_file, is_verbose):
+# @click.option('-d', '--verbose', 'is_verbose', default=True, is_flag=True, help="Will print verbose messages.")
+def controller(yaml_file):
     # =============================================================================== Initializations
-    if is_verbose:
-        logger.setLevel(logging.DEBUG)
-
-    # create console handler and set level to debug
-    ch = logging.StreamHandler()
-    if is_verbose:
-        ch.setLevel(logging.DEBUG)
-
-    # create formatter
-    formatter = logging.Formatter(
-        "%(asctime)s - %(name)s - "+Fore.YELLOW+"%(levelname)s"+Fore.RESET+" - %(message)s")
-
-    # add formatter to ch
-    ch.setFormatter(formatter)
-
-    # add ch to logger
-    logger.addHandler(ch)
-
     logger.debug(Style.BRIGHT+Fore.BLUE+"Loading Robot from : " +
                  Fore.RESET+Style.RESET_ALL+yaml_file)
 
+    # =============================================================================== Load all solvers
+    solversCollection = _SolverCollection('solvers', logger)
+
+    solvers = solversCollection.getAllSolvers()
+    logger.debug("Kinematics Solvers detected :")
+    logger.debug(solvers)
+
+    # =============================================================================== Connect to AMBF simulator
     connect_ambf_client()
 
 
@@ -73,31 +81,4 @@ def connect_ambf_client():
 
 
 if __name__ == '__main__':
-    # controller()
-        # for(name) in pkgutil.iter_modules(["solvers"]):
-    #     print(name)
-    #     importlib.import_module('.' + name, __package__)
-    # print(ambf_solver)
-    my_solvers = _SolverCollection('solvers')
-    # for cls in Solver.__subclasses__():
-    #     # print(cls.getName())
-    #     print(cls.__metaclass__)
-    all_my_base_classes = {
-        cls.__name__.upper(): cls for cls in Solver.__subclasses__()}
-    clses = my_solvers.getAll()
-    print(clses)
-    print(all_my_base_classes)
-
-    # all_my_base_classes = {
-    #     cls.__name__: cls for cls in solvers._MyBase.__subclasses__()}
-
-    # my_import('solvers')
-    # __import__('solvers')
-
-
-def my_import(name):
-    components = name.split('.')
-    mod = __import__(components[0])
-    for comp in components[1:]:
-        mod = getattr(mod, comp)
-    return mod
+    controller()

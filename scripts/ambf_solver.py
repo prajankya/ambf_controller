@@ -30,16 +30,18 @@ class _SolverCollection(object):
     that contain a class definition that is inheriting from the Solver class
     """
 
-    def __init__(self, solver_package):
+    def __init__(self, solver_package, logger):
         """Constructor that initiates the reading of all available solvers
         when an instance of the SolversCollection object is created
         """
         self._solver_package = solver_package
+        self._logger = logger
+        self.debug = self._logger.debug
         self._reload_solvers()
 
-    def getAll(self):
-        # all_classes = {
-        #     cls.__name__.upper(): cls for cls in __import__(self._solver_package).__subclasses__()}
+    def getAllSolvers(self):
+        # all_my_base_classes = {
+        #     cls.__name__.upper(): cls for cls in Solver.__subclasses__()}
         return self._classes
 
     def _reload_solvers(self):
@@ -48,8 +50,8 @@ class _SolverCollection(object):
         """
         self.solvers = []
         self.seen_paths = []
-        print('Looking for solvers under package ')
-        print(self._solver_package)
+        # self.debug('Looking for solvers under package: ' +
+        #            self._solver_package)
         self.walk_package(self._solver_package)
 
     def walk_package(self, package):
@@ -66,8 +68,8 @@ class _SolverCollection(object):
                 for (_, c) in clsmembers:
                     # Only add classes that are a sub class of Solver, but NOT Solver itself
                     if issubclass(c, Solver) & (c is not Solver):
-                        print('Found solver class:')
-                        print(c.__module__+"."+c.__name__)
+                        # self.debug('Found solver class: ' +
+                        #            c.__module__+"."+c.__name__)
                         self._classes[c.__name__.upper()] = c
 
         # Now that we have looked at all the modules in the current package, start looking

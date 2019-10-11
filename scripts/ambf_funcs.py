@@ -31,7 +31,7 @@ def connect_to_ambf_client():
         if(name != "World" and name != 'world'):
             obj_hdl = _client.get_obj_handle(name)
             if obj_hdl.get_num_joints() > 0:
-                print("Found base link of a robot:" + obj_hdl.get_name())
+                log.debug("Found base link of a robot:" + obj_hdl.get_name())
                 base_links.append(obj_hdl.get_name())
 
     if len(base_links) == 0:

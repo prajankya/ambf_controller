@@ -8,8 +8,7 @@ from logger import logger as log
 
 
 class Solver(object):
-    """Base class that each solver must inherit from. within this class
-    you must define the methods that all of your solvers must implement
+    """Base class that each solver must inherit from.
     """
     __metaclass__ = ABCMeta
 
@@ -20,9 +19,16 @@ class Solver(object):
         pass
 
     @abstractmethod
-    def perform_operation(self, argument):
-        """The method that we expect all solvers to implement. This is the
-        method that our framework will call
+    def FK(self, chain, joint_params):
+        """The method that is expected to be implemented by all solvers. This is the
+        method is called whenever the Forward kinematics is required to be solved
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def IK(self, chain, tip_6DOF):  # need to know which is tip in the chain first
+        """The method that is expected to be implemented by all solvers. This is the
+        method is called whenever the Forward kinematics is required to be solved
         """
         raise NotImplementedError
 

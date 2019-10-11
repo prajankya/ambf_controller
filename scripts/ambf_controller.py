@@ -34,7 +34,8 @@ def controller(yaml_file):
     solvers = solversCollection.getAllSolvers()
     log.debug("Kinematics Solvers detected :")
     log.debug(solvers)
-
+    sol = solvers['DELTA']()
+    sol.FK("", "")
     # =============================================================================== Load Map
     # Getting Parent-child map
     if IS_STANDALONE:

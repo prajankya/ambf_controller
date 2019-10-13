@@ -21,7 +21,11 @@ def readYaml(yaml_file):
         data = yaml.load(f)
         # log.debug(data['bodies'])
         bodies_namelist = data['bodies']
-        bodies = []
+        bodies = {}
         for body_name in bodies_namelist:
-            b = Body(data[body_name])
-            log.debug(b)
+            bodies[data[body_name]['name']] = Body(data[body_name])
+
+        joints_namelist = data['joints']
+        joints = {}
+        for joint_name in joints_namelist:
+            joints[data[joint_name]['name']] = Joint(data[joint_name])

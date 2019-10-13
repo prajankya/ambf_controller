@@ -1,14 +1,13 @@
 
-import sys
-
 import yaml
-from collections import OrderedDict
 
 
 class Body:
     def __init__(self, yaml_data):
         try:
-            # Mandatory key, required for kinematics
+            # Mandatory keys, required for kinematics
+            self.name = yaml_data['name']
+
             self.location = {
                 'orientation': {
                     'r': float(yaml_data['location']['orientation']['r']),
@@ -26,10 +25,6 @@ class Body:
 
         # All other optional keys
         try:
-            self.name = yaml_data['name']
-        except ValueError:
-            pass
-        try:
             self.mesh = yaml_data['mesh']
         except ValueError:
             pass
@@ -46,19 +41,51 @@ class Body:
         return yaml.dump(self)
 
 
-# Joint Template for the some commonly used of afJoint's data
 class Joint:
-    def __init__(self):
-        self._data = OrderedDict()
-        self._data['name'] = ''
-        self._data['parent'] = ''
-        self._data['child'] = ''
-        self._data['parent axis'] = {'x': 0, 'y': 0.0, 'z': 1.0}
-        self._data['parent pivot'] = {'x': 0, 'y': 0.0, 'z': 0}
-        self._data['child axis'] = {'x': 0, 'y': 0.0, 'z': 1.0}
-        self._data['child pivot'] = {'x': 0, 'y': 0.0, 'z': 0}
-        self._data['joint limits'] = {'low': -1.2, 'high': 1.2}
-        self._data['controller'] = {'P': 1000, 'I': 0, 'D': 1}
+    def __init__(self, yaml_data):
+        try:
+            # Mandatory keys, required for kinematics
+            self.name = yaml_data['name']
+            self.parent = yaml_data['parent']
+            self.child = yaml_data['child']
+
+            self.type = yaml_data['type']
+
+            self.parent_axis = {
+                'x': float(yaml_data['parent axis']['x']),
+                'y': float(yaml_data['parent axis']['y']),
+                'z': float(yaml_data['parent axis']['z'])
+            }
+            self.parent_pivot = {
+                'x': float(yaml_data['parent pivot']['x']),
+                'y': float(yaml_data['parent pivot']['y']),
+                'z': float(yaml_data['parent pivot']['z'])
+            }
+
+            self.child_axis = {
+                'x': float(yaml_data['child axis']['x']),
+                'y': float(yaml_data['child axis']['y']),
+                'z': float(yaml_data['child axis']['z'])
+            }
+            self.child_pivot = {
+                'x': float(yaml_data['child pivot']['x']),
+                'y': float(yaml_data['child pivot']['y']),
+                'z': float(yaml_data['child pivot']['z'])
+            }
+
+            self.joint_limits = {
+                'high': float(yaml_data['joint limits']['high']),
+                'low': float(yaml_data['joint limits']['low'])
+            }
+
+            self.controller = {
+                'P': float(yaml_data['controller']['P']),
+                'I': float(yaml_data['controller']['I']),
+                'D': float(yaml_data['controller']['D'])
+            }
+
+        except ValueError:
+            raise TypeError("Joint cannot be parsed!")
 
     def __str__(self):
         return yaml.dump(self)

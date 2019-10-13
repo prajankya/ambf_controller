@@ -6,15 +6,8 @@ import yaml
 import rospkg
 
 from logger import logger as log
-
+from kin_tree import Body, Joint
 # =============================================================================== Initializations
-# can be used as default file
-#
-# rospack = rospkg.RosPack()
-# DEFAULT_YAML_FILEPATH = os.path.join(rospack.get_path(
-#     'ambf_controller'), "example_robots", "blender-kuka.yaml")
-
-# TODO : write a standalone YAML loader to map
 
 
 def readYaml(yaml_file):
@@ -26,4 +19,9 @@ def readYaml(yaml_file):
 
     with open(yaml_file, 'rb') as f:
         data = yaml.load(f)
-        log.debug(data)
+        # log.debug(data['bodies'])
+        bodies_namelist = data['bodies']
+        bodies = []
+        for body_name in bodies_namelist:
+            b = Body(data[body_name])
+            log.debug(b)

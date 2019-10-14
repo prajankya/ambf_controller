@@ -23,8 +23,12 @@ class Tree:
 
 
 class Body:
-    """Upon creation, this class will read the solvers package for modules
-    that contain a class definition that is inheriting from the Solver class
+    """This class defined a generic body which is equivalent to links 
+    in a conventional Kinematics solver
+
+    Raises:
+        TypeError: If any required key is missing/invalid in the 
+        parameters passed
     """
 
     def __init__(self, yaml_data):
@@ -82,6 +86,13 @@ class Body:
 
 
 class Joint:
+    """This class defined a generic Joint between two bodies 
+
+    Raises:
+        TypeError: If any required key is missing/invalid in the 
+        parameters passed
+    """
+
     def __init__(self, yaml_data):
         """Constructor for Joint class
 

@@ -2,24 +2,81 @@
 import yaml
 import numpy as np
 
+from logger import logger as log
+
 
 class Tree:
-    """Upon creation, this class allow to traverse along the tree structure 
+    """Upon creation, this class allow to traverse along the tree structure
     of bodies along joints
     """
 
     def __init__(self, bodies, joints):
         """Constructor for Tree class, needs dictionary of bodies class and
-        Joint class with names of bodies and joints as keys respectively. 
+        Joint class with names of bodies and joints as keys respectively.
 
         Arguments:
             bodies {dict of Class Body} -- Dictionary of bodies with body name as key.
             joints {dict of Class Joint} -- Dictionary of joints with joint name as key.
         """
-        self.bodies = bodies
-        self.joints = joints
+        # self.bodies = bodies
+        # self.joints = joints
+
+        self.bodies = {}
+        self.joints = {}
         self.base_body = None
         self.tip_body = None
+
+        self.joints = joints
+
+        for joint_name in joints:
+            # Get all variables
+            parent_body = bodies[joints[joint_name].parent]
+            parent_body_name = joints[joint_name].parent
+            child_body = bodies[joints[joint_name].child]
+            child_body_name = joints[joint_name].child
+
+            # add both to list of bodies
+            if parent_body_name not in self.bodies:
+                self.bodies[parent_body_name] = parent_body
+
+            if child_body_name not in self.bodies:
+                self.bodies[child_body_name] = child_body
+
+            # adding parents to the child body
+            if self.bodies[child_body_name].parents == None:
+                self.bodies[child_body_name].parents = []
+            if parent_body_name not in self.bodies[child_body_name].parents:
+                self.bodies[child_body_name].parents.append(parent_body_name)
+
+            # adding children to the parent body
+            if self.bodies[parent_body_name].children == None:
+                self.bodies[parent_body_name].children = []
+            if child_body_name not in self.bodies[parent_body_name].children:
+                self.bodies[parent_body_name].children.append(child_body_name)
+
+        # Need to add nested for loop
+        # # fill in empty base and tip
+        # if self.base_body == None:
+        #     self.base_body = parent_body
+
+        # if self.tip_body == None:
+        #     self.tip_body = child_body
+
+        # log.debug(self.base_body.name + "," + child_body_name +
+        #             "," + str(self.base_body.name == child_body_name)+" :parent_body:"+parent_body.name)
+
+        # # Move base link one step inside if another link is parent of it
+        # if self.base_body.name == child_body_name:
+        #     self.base_body = parent_body
+
+        # if self.tip_body.name == parent_body_name:
+        #     self.tip_body = child_body
+
+        log.debug(yaml.dump(self))
+        # log.debug("BASE:")
+        # log.debug(self.base_body)
+        # log.debug("TIP:")
+        # log.debug(self.tip_body)
 
 
 class Body:
@@ -106,8 +163,10 @@ class Joint:
         try:
             # Mandatory keys, required for kinematics
             self.name = yaml_data['name']
-            self.parent = yaml_data['parent']
-            self.child = yaml_data['child']
+            # [5:] to remove "BODY " in start of name
+            self.parent = yaml_data['parent'][5:]
+            # [5:] to remove "BODY " in start of name
+            self.child = yaml_data['child'][5:]
 
             self.type = yaml_data['type']
 

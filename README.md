@@ -1,6 +1,13 @@
-# ambf_controller
+# ambf_controller - WIP
 RBE501 course project: Team 10
 
+
+- All values in SI units (meters, radians, etc)
+
+## TODO
+- design logic for Iterative solution
+- develop flow for passing CLI parameters like Joint states/Tip 6DOF
+- generate 4x4 homogeneous matrix for each link if required in most of the solvers
 
 ## Limitation
 - Currently the solvers support only a chain (One base and one tip, but can have multiple branches within).

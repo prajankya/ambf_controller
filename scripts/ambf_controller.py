@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import os
+import sys
 import rospkg
 
 import yaml
@@ -51,11 +52,19 @@ def controller(yaml_file, IS_STANDALONE):
         # chain = getChainFromAMBFClient(); #:yet to be implemented
         # solver_to_use  = getSolverForTheChain()# yet to be implemented
 
-    log.debug("Chain :")
-    log.debug(chain)
+    # Exiting if no chain is loaded
+    if chain == None:
+        sys.exit("No Chain detected. Exiting..")
 
-    log.debug("Solver to use :")
-    log.debug(solver_to_use)
+    # Exiting if no solver is defined
+    if solver_to_use == None:
+        sys.exit("No Solver is defined. Exiting..")
+
+    # Get an instance of the solver to be used
+    solver = solvers[solver_to_use](chain)
+
+    log.debug(">>")
+    log.debug(solver.solve_for_ik([0, 0, 0, 0, 0, 0]))
 
 
 if __name__ == '__main__':

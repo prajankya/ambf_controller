@@ -64,30 +64,49 @@ class Chain:
             if child_body_name not in self._bodies:
                 self._bodies[child_body_name] = child_body
 
-        self.base_body = None
-        self.tip_body = None
+        self._base_body = None
+        self._tip_body = None
 
         # ATTEMPTING to find base and tip bodies
         for body_name in bodies:
             if len(bodies[body_name].parents) == 0:
-                if self.base_body == None:
-                    self.base_body = bodies[body_name]
+                if self._base_body == None:
+                    self._base_body = bodies[body_name]
                 else:
                     raise ValueError("Found two Base bodies" +
-                                     " within the given CHAIN! cannot Generate Chain.")
+                                     " within the given CHAIN! Cannot generate the Chain.")
 
             if len(bodies[body_name].children) == 0:
-                if self.tip_body == None:
-                    self.tip_body = bodies[body_name]
+                if self._tip_body == None:
+                    self._tip_body = bodies[body_name]
                 else:
                     raise ValueError("Found two Tip bodies" +
-                                     " within the given CHAIN! cannot Generate Chain.")
+                                     " within the given CHAIN! Cannot generate the Chain.")
 
-        # log.debug(yaml.dump(self))
-        log.debug("BASE:")
-        log.debug(self.base_body)
-        log.debug("TIP:")
-        log.debug(self.tip_body)
+        # Throw errors if no base or tip bodies are defined
+        if self._base_body == None:
+            raise ValueError("No Base body found" +
+                             " within the given CHAIN! Cannot generate the Chain.")
+
+        if self._tip_body == None:
+            raise ValueError("No Base body found" +
+                             " within the given CHAIN! Cannot generate the Chain.")
+
+    def getBaseBody(self):
+        """Get the Base body in the chain.
+
+        Returns:
+            Body -- Returns the base body in the chain
+        """
+        return self._base_body
+
+    def getTipBody(self):
+        """Get the Tip body in the chain.
+
+        Returns:
+            Body -- Returns the tip body in the chain
+        """
+        return self._tip_body
 
     def getBody(self, name):
         """Get a body from the chain

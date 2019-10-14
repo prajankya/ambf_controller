@@ -1,8 +1,11 @@
 {
-    "python.pythonPath": ".env/bin/python3.5",
     "editor.formatOnSave": true,
     "editor.renderWhitespace": "all",
-    "python.linting.pylintEnabled": false,
-    "python.linting.pep8Enabled": true,
-    "python.linting.enabled": true
+    "python.pythonPath": "/usr/bin/python",
+    "editor.renderControlCharacters": true,
+    "editor.renderLineHighlight": "all",
+    "files.exclude": {
+        "**/*.pyc": true
+    },
+    // "workbench.tree.renderIndentGuides": "always"
 }

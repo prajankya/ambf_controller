@@ -3,15 +3,16 @@
 import os
 import rospkg
 
+import yaml
 import click
 from colorama import Fore, Back, Style, init
 
 from solver import Solver
+from kin_tree import Chain
+from logger import logger as log
 from solver import _SolverCollection
-from read_yaml import readYaml
 from ambf_funcs import connect_to_ambf_client
 
-from logger import logger as log
 
 rospack = rospkg.RosPack()
 
@@ -19,7 +20,7 @@ rospack = rospkg.RosPack()
 @click.command()
 @click.option('-r', '--robot_file', 'yaml_file', default=os.path.join(rospack.get_path(
     'ambf_controller'), "example_robots", "blender-kuka.yaml"), help='Robot Yaml File path', type=click.Path(exists=True), required=False)
-@click.option('-y', '--yaml', 'IS_STANDALONE', default=False, is_flag=True, help="Load Robot from Yaml file instead of AMBF_client.")
+@click.option('-y', '--yaml', 'IS_STANDALONE', default=True, is_flag=True, help="Load Robot from Yaml file instead of AMBF_client.")
 def controller(yaml_file, IS_STANDALONE):
     # =============================================================================== Initializations
     if IS_STANDALONE:
@@ -36,12 +37,25 @@ def controller(yaml_file, IS_STANDALONE):
     log.debug("Kinematics Solvers detected :")
     log.debug(solvers)
 
-    # =============================================================================== Load Map
-    # Getting Parent-child map
+    # =============================================================================== Loading chain
+    # Getting Kinematics chain
+    chain = None
+    solver_to_use = None
     if IS_STANDALONE:
-        readYaml(yaml_file)
+        with open(yaml_file, 'rb') as f:
+            data = yaml.load(f)
+            chain = Chain(data)
+            solver_to_use = data['solver']
     else:
-        connect_to_ambf_client()   # TODO : Yet to write the code to get kintree
+        connect_to_ambf_client()   # Yet to be implemented from AMBF client side
+        # chain = getChainFromAMBFClient(); #:yet to be implemented
+        # solver_to_use  = getSolverForTheChain()# yet to be implemented
+
+    log.debug("Chain :")
+    log.debug(chain)
+
+    log.debug("Solver to use :")
+    log.debug(solver_to_use)
 
 
 if __name__ == '__main__':

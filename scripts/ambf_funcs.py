@@ -36,16 +36,3 @@ def connect_to_ambf_client():
 
     if len(base_links) == 0:
         sys.exit(Fore.RED+"NO base links found in AMBF simulator.")
-
-
-# log.debug(obj_hdl.get_num_joints())
-# # log.debug(obj_hdl.get_name())
-# # log.debug(obj_hdl.get_all_joint_pos())
-# log.debug('\n\n----')
-# # log.debug("List of Joints")
-# # log.debug(obj_hdl.get_joint_names())
-
-# # log.debug('\n\n----')
-# # log.debug("List of Children Names")
-# # log.debug(obj_hdl.get_children_names())
-# # log.debug("-----------------")

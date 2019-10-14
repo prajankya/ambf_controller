@@ -32,3 +32,5 @@ def readYaml(yaml_file):
 
         # name can be implemented in YAML
         chain = Chain(bodies, joints)
+        log.debug(chain.getJoint(chain.getBody(
+            chain.getBody("base").children[0]).child_joints[0]))

@@ -22,9 +22,9 @@ class Chain:
             joints {dict of Class Joint} -- Dictionary of joints with joint name as key.
         """
 
-        self.bodies = {}
+        self._bodies = {}
 
-        self.joints = joints
+        self._joints = joints
 
         for joint_name in joints:
             # Get all variables
@@ -59,10 +59,10 @@ class Chain:
                 parent_body.child_joints.append(joint_name)
 
             # add both to list of bodies
-            if parent_body_name not in self.bodies:
-                self.bodies[parent_body_name] = parent_body
-            if child_body_name not in self.bodies:
-                self.bodies[child_body_name] = child_body
+            if parent_body_name not in self._bodies:
+                self._bodies[parent_body_name] = parent_body
+            if child_body_name not in self._bodies:
+                self._bodies[child_body_name] = child_body
 
         self.base_body = None
         self.tip_body = None
@@ -88,6 +88,28 @@ class Chain:
         log.debug(self.base_body)
         log.debug("TIP:")
         log.debug(self.tip_body)
+
+    def getBody(self, name):
+        """Get a body from the chain
+
+        Arguments:
+            name {string} -- name of the body to get
+
+        Returns:
+            Body -- Body instance of the requested name
+        """
+        return self._bodies.get(name)
+
+    def getJoint(self, name):
+        """Get a joint from the chain
+
+        Arguments:
+            name {string} -- name of the joint to get
+
+        Returns:
+            Joint -- Joint instance of the requested name
+        """
+        return self._joints.get(name)
 
 
 class Body:

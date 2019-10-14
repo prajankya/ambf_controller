@@ -2,6 +2,9 @@
 RBE501 course project: Team 10
 
 
+## Limitation
+- Currently the solvers support only a chain (One base and one tip, but can have multiple branches within).
+
 ## Install
 This project depends on AMBF to be installed first, so follow [https://github.com/WPI-AIM/ambf/](https://github.com/WPI-AIM/ambf/) to install.
 

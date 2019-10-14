@@ -6,7 +6,7 @@ import yaml
 import rospkg
 
 from logger import logger as log
-from kin_tree import Tree, Body, Joint
+from kin_tree import Chain, Body, Joint
 # =============================================================================== Initializations
 
 
@@ -31,4 +31,4 @@ def readYaml(yaml_file):
             joints[data[joint_name]['name']] = Joint(data[joint_name])
 
         # name can be implemented in YAML
-        tree = Tree(bodies, joints)
+        chain = Chain(bodies, joints)

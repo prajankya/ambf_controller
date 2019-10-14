@@ -66,6 +66,7 @@
 
   <exec_depend>python-yaml</exec_depend>
   <exec_depend>python-click</exec_depend>
+  <exec_depend>python-numpy</exec_depend>
   <exec_depend>python-colorama</exec_depend>
 
 

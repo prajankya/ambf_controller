@@ -1,9 +1,41 @@
 
 import yaml
+import numpy as np
+
+
+class Tree:
+    """Upon creation, this class allow to traverse along the tree structure 
+    of bodies along joints
+    """
+
+    def __init__(self, bodies, joints):
+        """Constructor for Tree class, needs dictionary of bodies class and
+        Joint class with names of bodies and joints as keys respectively. 
+
+        Arguments:
+            bodies {dict of Class Body} -- Dictionary of bodies with body name as key.
+            joints {dict of Class Joint} -- Dictionary of joints with joint name as key.
+        """
+        self.bodies = bodies
+        self.joints = joints
+        self.base_body = None
+        self.tip_body = None
 
 
 class Body:
+    """Upon creation, this class will read the solvers package for modules
+    that contain a class definition that is inheriting from the Solver class
+    """
+
     def __init__(self, yaml_data):
+        """Constructor for Body class
+
+        Arguments:
+            yaml_data {dict} -- Dictionary of body parameters read by yaml
+
+        Raises:
+            TypeError: If name/location key is missing/invalid in the parameters
+        """
         try:
             # Mandatory keys, required for kinematics
             self.name = yaml_data['name']
@@ -36,13 +68,30 @@ class Body:
             self.scale = float(yaml_data['scale'])
         except ValueError:
             pass
+        self.parents = []
+        self.children = []
 
     def __str__(self):
+        """String print, this function helps in printing 
+        stringified version of class object
+
+        Returns:
+            string -- YAML equvivalent of the object
+        """
         return yaml.dump(self)
 
 
 class Joint:
     def __init__(self, yaml_data):
+        """Constructor for Joint class
+
+        Arguments:
+            yaml_data {dict} -- Dictionary of joint parameters read by yaml
+
+        Raises:
+            TypeError: If any required key is missing/invalid in the parameters
+        """
+
         try:
             # Mandatory keys, required for kinematics
             self.name = yaml_data['name']
@@ -88,4 +137,10 @@ class Joint:
             raise TypeError("Joint cannot be parsed!")
 
     def __str__(self):
+        """String print, this function helps in printing 
+        stringified version of class object
+
+        Returns:
+            string -- YAML equvivalent of the object
+        """
         return yaml.dump(self)

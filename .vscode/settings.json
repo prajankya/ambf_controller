@@ -7,5 +7,4 @@
     "files.exclude": {
         "**/*.pyc": true
     },
-    // "workbench.tree.renderIndentGuides": "always"
 }

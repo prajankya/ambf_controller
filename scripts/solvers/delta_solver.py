@@ -1,12 +1,20 @@
 from solver import Solver
+from logger import logger as log
 
 
 class Delta(Solver):  # this name would be used as identifier for type of robot "DELTA"
     """Kinematics solver for Delta Parallel Robot
     """
 
-    def FK(self, chain, joint_params):  # states
+    def init(self, chain):
+        # can be used if any class specific setup is needed.
+        # self.chain will have the Kinematics chain
         pass
 
-    def IK(self, chain, tip_6DOF):  # need to know which is tip in the chain first
-        pass
+    def solve_for_fk(self, joint_states):
+        print("TODO: Implement FK solver")
+        return joint_states
+
+    def solve_for_ik(self, tip_6DOF):
+        print("TODO: Implement IK solver")
+        return tip_6DOF

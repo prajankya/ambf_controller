@@ -12,7 +12,9 @@ class Delta(Solver):  # this name would be used as identifier for type of robot 
         pass
 
     def solve_for_fk(self, joint_states):
-        pass
+        print("TODO: Implement FK solver")
+        return joint_states
 
     def solve_for_ik(self, tip_6DOF):
-        pass
+        print("TODO: Implement IK solver")
+        return tip_6DOF

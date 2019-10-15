@@ -5,9 +5,10 @@ RBE501 course project: Team 10
 - All values in SI units (meters, radians, etc)
 
 ## TODO
-- design logic for Iterative solution
-- develop flow for passing CLI parameters like Joint states/Tip 6DOF
-- generate 4x4 homogeneous matrix for each link if required in most of the solvers
+[] design logic for Iterative solution
+[x] develop flow for passing CLI parameters like Joint states/Tip 6DOF
+[] generate 4x4 homogeneous matrix for each link if required in most of the solvers
+[] solver for any two links in the chain.(currently only base<->tip works)
 
 ## Limitation
 - Currently the solvers support only a chain (One base and one tip, but can have multiple branches within).
@@ -31,8 +32,15 @@ catkin_make
 ```
 
 ### Running
+
+**For FK**
 ```bash
-rosrun ambf_controller ambf_controller.py
+rosrun ambf_controller ambf_controller.py --fk "1,2,3"
+```
+
+**For IK**
+```bash
+rosrun ambf_controller ambf_controller.py --ik "1,2,3,4,5,6"
 ```
 
 ### Develop environment

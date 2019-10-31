@@ -5,10 +5,9 @@ RBE501 course project: Team 10
 - All values in SI units (meters, radians, etc)
 
 ## TODO
-[] design logic for Iterative solution
-[x] develop flow for passing CLI parameters like Joint states/Tip 6DOF
-[] generate 4x4 homogeneous matrix for each link if required in most of the solvers
-[] solver for any two links in the chain.(currently only base<->tip works)
+- design logic for Iterative solution
+- generate 4x4 homogeneous matrix for each link if required in most of the solvers
+- solver for any two links in the chain.(currently only base<->tip works)
 
 ## Limitation
 - Currently the solvers support only a chain (One base and one tip, but can have multiple branches within).

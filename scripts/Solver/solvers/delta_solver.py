@@ -1,5 +1,6 @@
 from Solver import BaseSolver
 from Solver import logger as log
+from Solver import InvalidChainError
 
 
 class Delta(BaseSolver):  # this name would be used as identifier for type of robot "DELTA"
@@ -9,6 +10,9 @@ class Delta(BaseSolver):  # this name would be used as identifier for type of ro
     def init(self, chain):
         # can be used if any class specific setup is needed.
         # self.chain will have the Kinematics chain
+
+        # raise the error when you kinematic chain doesn't suit the solver
+        #raise InvalidChainError()
         pass
 
     def solve_for_fk(self, joint_states):

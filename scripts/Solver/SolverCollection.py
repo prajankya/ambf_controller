@@ -3,8 +3,9 @@ import pkgutil
 import inspect
 
 from solvers import *
-from BaseSolver import BaseSolver
 from logger import logger as log
+from BaseSolver import BaseSolver
+from InvalidChainError import InvalidChainError
 
 
 class SolverCollection(object):
@@ -13,28 +14,61 @@ class SolverCollection(object):
     """
 
     def __init__(self, solver_package="Solver.solvers"):
-        """Constructor that initiates the reading of all available solvers
-        when an instance of the SolversCollection object is created
+        """Constructor that initiates the reading of all available solvers when an instance of the SolversCollection object is created
         """
         self._solver_package = solver_package
         self.log = log
         self._reload_solvers()
 
     def getAllSolvers(self):
+        """Get list of classes of solvers
+
+        Returns:
+            Dict -- Returns an Dictionary with solver name as keys and classes as values 
+        """
+        self._reload_solvers()
         return {cls.__name__.upper(): cls for cls in BaseSolver.__subclasses__()}
         # return self._classes
 
+    def getSolver(self, solver_name, kinematic_chain, strict=True):
+        """Get the solver Oject given the solver name or any other solver, if strict is false.
+
+        Arguments:
+            solver_name {string} -- The name of solver to load (Should be valid) or it will throw error.
+            kinematic_chain {Chain} -- The chain which will be used by solver to initialize and do chain based validations to decide whether that solver can solve for that chain.
+
+        Keyword Arguments:
+            strict {bool} -- If True, it will fail if the specific solver requested does not load. If False, it tries to load any other solver after this in alphabetical order. (default: {True})
+
+        Returns:
+            BaseSolver -- Object of the Solver which is loaded (A Subclass of Solver.BaseSolver)
+        """
+        solvers = self.getAllSolvers()
+        solver_name = solver_name.upper().strip()
+
+        if strict:
+            if solver_name not in solvers:
+                raise TypeError("Solver with given name not found!")
+            return solvers[solver_name](kinematic_chain)
+        else:
+            if solver_name in solvers:
+                return solvers[solver_name](kinematic_chain)
+            else:
+                for cl in solvers:
+                    try:
+                        return solvers[cl](kinematic_chain)
+                    except InvalidChainError:
+                        pass
+                raise TypeError("No Solver found!")
+
     def _reload_solvers(self):
-        """Reset the list of all solvers and initiate the walk over the main
-        provided solver package to load all available solvers
+        """Reset the list of all solvers and initiate the walk over the main provided solver package to load all available solvers
         """
         self.solvers = []
         self.seen_paths = []
-        # self.debug('Looking for solvers under package: ' +
-        #            self._solver_package)
-        self.walk_package(self._solver_package)
+        self._walk_package(self._solver_package)
 
-    def walk_package(self, package):
+    def _walk_package(self, package):
         """Recursively walk the supplied package to retrieve all solvers
         """
         imported_package = __import__(package, fromlist=['blah'])
@@ -68,4 +102,4 @@ class SolverCollection(object):
 
                 # For each sub directory, apply the walk_package method recursively
                 for child_pkg in child_pkgs:
-                    self.walk_package(package + '.' + child_pkg)
+                    self._walk_package(package + '.' + child_pkg)

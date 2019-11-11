@@ -1,7 +1,14 @@
 #!/usr/bin/env python
 
 from Solver import SolverCollection
-from checker import Checker
+
 s = SolverCollection('Solver.solvers')
-q = s.getAllSolvers()
-print(q)
+try:
+    # s.getSolver('delt2a', 's', strict=False)
+    solver = s.getSolver('delta ', 's')
+
+    print("LOADED :" + solver.name)
+except Exception as err:
+    print("ERROR")
+    print(err.__class__)
+    print(err.message)

@@ -1,5 +1,6 @@
 from Solver import BaseSolver
 from Solver import logger as log
+from Solver import InvalidChainError
 
 
 class Tracik(BaseSolver):  # this name would be used as identifier for type of robot "TRACIK"

@@ -14,6 +14,7 @@ class BaseSolver(object):
         Arguments:
             chain {Chain} -- Chain on which the IK & FK is to be solved
         """
+        self.name = self.__class__.__name__.upper()
         self.chain = chain
         # do any more initializations here
         self.init(chain)

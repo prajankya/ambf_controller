@@ -1,8 +1,8 @@
-from solver import Solver
-from logger import logger as log
+from Solver import BaseSolver
+from Solver import logger as log
 
 
-class Tracik(Solver):  # this name would be used as identifier for type of robot "TRACIK"
+class Tracik(BaseSolver):  # this name would be used as identifier for type of robot "TRACIK"
     """Kinematics solver using TRAC-IK for Serial Robots
     """
     # implementing using PyKDL

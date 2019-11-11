@@ -1,8 +1,8 @@
-from solver import Solver
-from logger import logger as log
+from Solver import BaseSolver
+from Solver import logger as log
 
 
-class Delta(Solver):  # this name would be used as identifier for type of robot "DELTA"
+class Delta(BaseSolver):  # this name would be used as identifier for type of robot "DELTA"
     """Kinematics solver for Delta Parallel Robot
     """
 

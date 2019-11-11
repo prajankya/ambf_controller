@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from Solver import SolverCollection
-
+from checker import Checker
 s = SolverCollection('Solver.solvers')
-
-print(s)
+q = s.getAllSolvers()
+print(q)

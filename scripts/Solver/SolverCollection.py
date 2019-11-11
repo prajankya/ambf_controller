@@ -2,7 +2,8 @@ import os
 import pkgutil
 import inspect
 
-import BaseSolver
+from solvers import *
+from BaseSolver import BaseSolver
 from logger import logger as log
 
 
@@ -11,7 +12,7 @@ class SolverCollection(object):
     that contain a class definition that is inheriting from the Solver class
     """
 
-    def __init__(self, solver_package='solvers'):
+    def __init__(self, solver_package="Solver.solvers"):
         """Constructor that initiates the reading of all available solvers
         when an instance of the SolversCollection object is created
         """
@@ -20,9 +21,8 @@ class SolverCollection(object):
         self._reload_solvers()
 
     def getAllSolvers(self):
-        # all_my_base_classes = {
-        #     cls.__name__.upper(): cls for cls in Solver.__subclasses__()}
-        return self._classes
+        return {cls.__name__.upper(): cls for cls in BaseSolver.__subclasses__()}
+        # return self._classes
 
     def _reload_solvers(self):
         """Reset the list of all solvers and initiate the walk over the main
@@ -48,8 +48,6 @@ class SolverCollection(object):
                 for (_, c) in clsmembers:
                     # Only add classes that are a sub class of Solver, but NOT Solver itself
                     if issubclass(c, BaseSolver) & (c is not BaseSolver):
-                        # self.debug('Found solver class: ' +
-                        #            c.__module__+"."+c.__name__)
                         self._classes[c.__name__.upper()] = c
 
         # Now that we have looked at all the modules in the current package, start looking

@@ -36,7 +36,7 @@ class PythonLiteralOption(click.Option):
 @click.command()
 @click.pass_context
 @click.option('-r', '--robot_file', 'yaml_file', default=os.path.join(rospack.get_path(
-    'ambf_controller'), "example_robots", "blender-kuka.yaml"), help='Robot Yaml File path', type=click.Path(exists=True), required=False)
+    'ambf_controller'), "example_robots", "parallel_structure.yaml"), help='Robot Yaml File path', type=click.Path(exists=True), required=False)
 @click.option('-y', '--yaml', 'IS_STANDALONE', default=True, is_flag=True, help="Load Robot from Yaml file instead of AMBF_client.")
 @click.option('--fk', cls=PythonLiteralOption, default="[]", help='Joint states(Q1,Q2,..) as array as string i.e. "[1,2,3]"')
 @click.option('--ik', cls=PythonLiteralOption, default="[]", help='x,y,z,ax,ay,az of the tip as array as string i.e. "[1.0,2,3,4,5,6]"')

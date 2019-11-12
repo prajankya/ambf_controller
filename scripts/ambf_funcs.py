@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 
 import sys
 
@@ -5,7 +6,7 @@ from ambf_client import Client  # Import the Client from ambf_client package
 from colorama import Fore, Back, Style, init
 
 
-from Solver import logger as log
+from Solver import Logger as log
 
 
 # def connect_to_ambf_client():

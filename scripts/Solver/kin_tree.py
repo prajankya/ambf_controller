@@ -2,7 +2,7 @@
 import yaml
 import numpy as np
 
-from logger import logger as log
+from Logger import Logger as log
 
 
 class Chain:

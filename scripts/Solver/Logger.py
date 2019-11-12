@@ -2,13 +2,13 @@
 import logging
 from colorama import Fore, Back, Style, init
 
-global logger
+global Logger
 
 # create logger
-logger = logging.getLogger(Fore.MAGENTA + 'AMBF_ctrl')
+Logger = logging.getLogger(Fore.MAGENTA + 'Solver')
 
 # if is_verbose:
-logger.setLevel(logging.DEBUG)
+Logger.setLevel(logging.DEBUG)
 
 # create console handler and set level to debug
 ch = logging.StreamHandler()
@@ -23,4 +23,14 @@ formatter = logging.Formatter(
 ch.setFormatter(formatter)
 
 # add ch to logger
-logger.addHandler(ch)
+Logger.addHandler(ch)
+
+
+Logger.CRITICAL = logging.CRITICAL
+Logger.FATAL = logging.FATAL
+Logger.ERROR = logging.ERROR
+Logger.WARNING = logging.WARNING
+Logger.WARN = logging.WARN
+Logger.INFO = logging.INFO
+Logger.DEBUG = logging.DEBUG
+Logger.NOTSET = logging.NOTSET

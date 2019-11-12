@@ -1,5 +1,5 @@
 from Solver import BaseSolver
-from Solver import logger as log
+from Solver.Logger import Logger as log
 from Solver import InvalidChainError
 
 

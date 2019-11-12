@@ -1,6 +1,6 @@
 from abc import ABCMeta, abstractmethod
 
-from logger import logger as log
+from Logger import Logger as log
 
 
 class BaseSolver(object):
@@ -16,16 +16,14 @@ class BaseSolver(object):
         """
         self.name = self.__class__.__name__.upper()
         self.chain = chain
-        # do any more initializations here
         self.init(chain)
 
     @abstractmethod
     def init(self, chain):
-        """This method will be called after the initialization of the
-        base class is completed. This function will give the chain as 
-        a parameter.
+        """This method will be called after the initialization of the base class is completed. This function will give the chain as a parameter.
 
         ** NOTE: `self.chain` can be used to access this chain **
+        ** NOTE: `self.name` can be used to access the name **
 
         Arguments:
             chain {Chain} -- Chain on which the IK & FK is to be solved

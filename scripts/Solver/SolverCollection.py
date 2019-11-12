@@ -3,7 +3,7 @@ import pkgutil
 import inspect
 
 from solvers import *
-from logger import logger as log
+from Logger import Logger as log
 from BaseSolver import BaseSolver
 from InvalidChainError import InvalidChainError
 

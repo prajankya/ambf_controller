@@ -91,7 +91,7 @@ def controller(ctx, yaml_file, IS_STANDALONE, fk, ik):
     # Get an instance of the solver to be used
     solver = solverCollection.getSolver(solver_to_use, chain)
 
-    log.debug("Loaded Solver >>" + solver_to_use)
+    log.debug("Loaded Solver >> " + solver.name)
 
     if ik != []:  # solving IK
         if len(ik) != 6:  # Validating IK

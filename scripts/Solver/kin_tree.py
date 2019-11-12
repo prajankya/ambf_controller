@@ -264,16 +264,20 @@ class Joint:
                 'z': float(yaml_data['child pivot']['z'])
             }
 
-            self.joint_limits = {
-                'high': float(yaml_data['joint limits']['high']),
-                'low': float(yaml_data['joint limits']['low'])
-            }
+            try:
+                self.joint_limits = {
+                    'high': float(yaml_data['joint limits']['high']),
+                    'low': float(yaml_data['joint limits']['low'])
+                }
 
-            self.controller = {
-                'P': float(yaml_data['controller']['P']),
-                'I': float(yaml_data['controller']['I']),
-                'D': float(yaml_data['controller']['D'])
-            }
+                self.controller = {
+                    'P': float(yaml_data['controller']['P']),
+                    'I': float(yaml_data['controller']['I']),
+                    'D': float(yaml_data['controller']['D'])
+                }
+            except:
+                # Optional
+                pass
 
         except ValueError:
             raise TypeError("Joint cannot be parsed!")

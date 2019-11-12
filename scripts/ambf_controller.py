@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 import os
 import sys
@@ -10,11 +10,8 @@ import yaml
 import click
 from colorama import Fore, Back, Style, init
 
-from solver import Solver
-from kin_tree import Chain
-from logger import logger as log
-from solver import _SolverCollection
-from ambf_funcs import connect_to_ambf_client
+from Solver import SolverCollection, Logger as log, Chain
+from ambf_funcs import loadChainFromAMBF
 
 
 rospack = rospkg.RosPack()
@@ -50,33 +47,34 @@ def controller(ctx, yaml_file, IS_STANDALONE, fk, ik):
                   Fore.RESET+Style.RESET_ALL)
 
     # =============================================================================== Load all solvers
-    solversCollection = _SolverCollection('solvers')
+    solverCollection = SolverCollection()
 
-    solvers = solversCollection.getAllSolvers()
+    solvers = solverCollection.getAllSolvers()
     log.debug("Kinematics Solvers detected :")
     log.debug(solvers)
 
     # =============================================================================== Loading chain
     # Getting Kinematics chain
     chain = None
+    ambf_client = None
     solver_to_use = None
-    if IS_STANDALONE:
-        with open(yaml_file, 'rb') as f:
-            data = yaml.load(f)
-            chain = Chain(data)
+
+    with open(yaml_file, 'rb') as f:
+        data = yaml.load(f)
+        if 'solver' in data:
             solver_to_use = data['solver']
+        else:
+            # Exiting if no solver is defined
+            sys.exit("No Solver is defined. Exiting..")
+
+    if IS_STANDALONE:
+        chain = Chain(data)
     else:
-        connect_to_ambf_client()   # Yet to be implemented from AMBF client side
-        # chain = getChainFromAMBFClient(); #:yet to be implemented
-        # solver_to_use  = getSolverForTheChain()# yet to be implemented
+        ambf_client, chain = loadChainFromAMBF(data)
 
     # Exiting if no chain is loaded
     if chain == None:
         sys.exit("No Chain detected. Exiting..")
-
-    # Exiting if no solver is defined
-    if solver_to_use == None:
-        sys.exit("No Solver is defined. Exiting..")
 
     if(ik == [] and fk == []):  # Nothing to do
         log.debug(Fore.RED+"Either --ik or --fk parameter need to" +
@@ -91,9 +89,9 @@ def controller(ctx, yaml_file, IS_STANDALONE, fk, ik):
         sys.exit()
 
     # Get an instance of the solver to be used
-    solver = solvers[solver_to_use](chain)
+    solver = solverCollection.getSolver(solver_to_use, chain)
 
-    log.debug("Loaded Solver >>"+solver_to_use)
+    log.debug("Loaded Solver >>" + solver_to_use)
 
     if ik != []:  # solving IK
         if len(ik) != 6:  # Validating IK

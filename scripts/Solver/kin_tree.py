@@ -9,7 +9,7 @@ class Chain:
     """Upon creation, this class allow to traverse along the Chain structure
     of bodies along joints.
 
-    Here, chain is similar to a tree with one base body and one tip 
+    Here, chain is similar to a tree with one base body and one tip
     body with any number of  branches in within
     """
 
@@ -78,12 +78,20 @@ class Chain:
 
         # ATTEMPTING to find base and tip bodies
         for body_name in bodies:
-            if len(bodies[body_name].parents) == 0:
-                if self._base_body == None:
-                    self._base_body = bodies[body_name]
-                else:
-                    raise ValueError("Found two Base bodies" +
-                                     " within the given CHAIN! Cannot generate the Chain.")
+            # if len(bodies[body_name].parents) == 0:
+            #     if self._base_body == None:
+            #         self._base_body = bodies[body_name]
+            #     else:
+            #         raise ValueError("Found two Base bodies" +
+            #                          " within the given CHAIN! Cannot generate the Chain.")
+
+            if len(bodies[body_name].parents) > 0:
+                if bodies[body_name].parents[0] == 'WORLD' or bodies[body_name].parents[0] == 'world':
+                    if self._base_body == None:
+                        self._base_body = bodies[body_name]
+                    else:
+                        raise ValueError("Found two Base bodies" +
+                                         " within the given CHAIN! Cannot generate the Chain.")
 
             if len(bodies[body_name].children) == 0:
                 if self._tip_body == None:

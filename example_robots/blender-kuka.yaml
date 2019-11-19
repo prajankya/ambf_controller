@@ -6,8 +6,8 @@ bodies: [BODY base, BODY link1, BODY link2, BODY link3, BODY link4, BODY link5, 
     link6, BODY link7]
 joints: [JOINT base-link1, JOINT link1-link2, JOINT link2-link3, JOINT link3-link4,
   JOINT link4-link5, JOINT link5-link6, JOINT link6-link7]
-high resolution path: ./meshes/kuka_lwr/high_res/
-low resolution path: ./meshes/kuka_lwr/low_res/
+high resolution path: /home/prajankya/ambf/ambf_models/meshes/kuka_lwr/high_res/
+low resolution path: /home/prajankya/ambf/ambf_models/meshes/kuka_lwr/low_res/
 ignore inter-collision: true
 namespace: /ambf/env/
 solver: DELTA

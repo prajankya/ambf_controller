@@ -11,6 +11,7 @@ RBE501 course project: Team 10
 
 ## Limitation
 - Currently the solvers support only a chain (One base and one tip, but can have multiple branches within).
+- Issue with config loader in AMBF : we have to use absolute path (With username) for meshes folder in example_robots file
 
 ## Changes to existing AMBF - YAML format
 - Added `solver` parameter to the root of the robot(please check example yaml in this repo)

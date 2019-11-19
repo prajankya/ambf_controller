@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <launch>
-    <arg name="yaml_file" default="$(find ambf_controller)/example_robots/parallel_structure.yaml"/>
+    <arg name="yaml_file" default="$(find ambf_controller)/example_robots/2D.yaml"/>
     <!-- AMBF -->
     <node pkg="ambf_controller" type="run_external_program.py" name="ambf" output="screen" required="true">
         <!-- Load robot 10 -->
-        <param name="cmd" value="~/ambf/bin/lin-x86_64/ambf_simulator --launch_file ~/ambf/ambf_models/descriptions/launch.yaml -l 10"/>
+        <param name="cmd" value="~/ambf/bin/lin-x86_64/ambf_simulator --launch_file ~/ambf/ambf_models/descriptions/launch.yaml -a $(arg yaml_file)"/>
     </node>
 
     <!-- Controller -->

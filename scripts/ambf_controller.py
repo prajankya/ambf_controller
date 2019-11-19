@@ -43,10 +43,6 @@ class AMBF_controller:
         # Generating Chain from yaml
         self.chain = Chain(data)
 
-        # Get handle to set joint positions to
-        self.robot_handle = self.ambf_client.get_obj_handle(
-            self.chain.getBaseBody())
-
         # Get Solver Collection
         solverCollection = SolverCollection()
 
@@ -67,6 +63,11 @@ class AMBF_controller:
         # Connect the client which in turn creates callable objects from ROS topics
         # and initiates a shared pool of threads for bi-directional communication
         self.ambf_client.connect()
+
+        print(self.chain.getBaseBody().name)
+        # Get handle to set joint positions to
+        self.robot_handle = self.ambf_client.get_obj_handle(
+            self.chain.getBaseBody().name)
 
         # =============================================================================== Start ROS comm
 

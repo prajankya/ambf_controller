@@ -8,7 +8,7 @@ high resolution path: ../../../meshes/blender_afmb/parallel_structure/high_res/
 low resolution path: ../../../meshes/blender_afmb/parallel_structure/low_res/
 ignore inter-collision: true
 namespace: /ambf/env/
-solver: DELTA
+solver: FOURBAR
 BODY world:
   name: world
   mesh: ''

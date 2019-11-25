@@ -2,6 +2,8 @@ from Solver import BaseSolver
 from Solver.Logger import Logger as log
 from Solver import InvalidChainError
 
+import PyKDL as kdl
+
 
 class Tracik(BaseSolver):  # this name would be used as identifier for type of robot "TRACIK"
     """Kinematics solver using TRAC-IK for Serial Robots
@@ -12,7 +14,8 @@ class Tracik(BaseSolver):  # this name would be used as identifier for type of r
     def init(self, chain):
         # can be used if any class specific setup is needed.
         # self.chain will have the Kinematics chain
-        pass
+        # TODO : Validate Chain to be serial
+        # kdl_chain = kdl.Chain()
 
     def solve_for_fk(self, joint_states):
         pass

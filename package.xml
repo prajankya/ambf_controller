@@ -63,6 +63,7 @@
   <exec_depend>rospy</exec_depend>
   <exec_depend>ambf_comm</exec_depend>
   <exec_depend>ambf_msgs</exec_depend>
+  <exec_depend>python_orocos_kdl</exec_depend>
 
   <exec_depend>python-yaml</exec_depend>
   <exec_depend>python-click</exec_depend>

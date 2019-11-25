@@ -64,7 +64,7 @@ class AMBF_controller:
         # and initiates a shared pool of threads for bi-directional communication
         self.ambf_client.connect()
 
-        print(self.chain.getBaseBody().name)
+        log.debug(self.chain.getBaseBody().name)
         # Get handle to set joint positions to
         self.robot_handle = self.ambf_client.get_obj_handle(
             self.chain.getBaseBody().name)
@@ -79,7 +79,7 @@ class AMBF_controller:
         rospy.spin()
 
     def set_pose_callback(self, msg):
-        print(msg)
+        log.debug(msg)
         joint_states = self.solver.solve_for_ik(msg)
         i = 0
         for joint_value in joint_states:
@@ -87,7 +87,7 @@ class AMBF_controller:
             i = i+1
 
     def set_joint_params_callback(self, msg):
-        print(msg)
+        log.debug(msg)
 
 
 if __name__ == '__main__':

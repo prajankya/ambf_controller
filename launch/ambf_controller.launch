@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <launch>
-    <arg name="yaml_file" default="$(find ambf_controller)/example_robots/2D.yaml"/>
+    <arg name="yaml_file" default="$(find ambf_controller)/example_robots/blender-kuka.yaml"/>
     <!-- AMBF -->
     <node pkg="ambf_controller" type="run_external_program.py" name="ambf" output="screen" required="true">
-        <!-- Load robot 10 -->
+        <!-- Load the robot defined in the file above -->
         <param name="cmd" value="~/ambf/bin/lin-x86_64/ambf_simulator --launch_file ~/ambf/ambf_models/descriptions/launch.yaml -a $(arg yaml_file)"/>
     </node>
 
     <!-- Controller -->
-    <node pkg="ambf_controller" type="ambf_controller.py" name="ambf_controller" output="screen" args="$(arg yaml_file)"/>
+    <!-- <node pkg="ambf_controller" type="ambf_controller.py" name="ambf_controller" output="screen" args="$(arg yaml_file)"/> -->
 </launch>

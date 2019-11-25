@@ -1,5 +1,6 @@
 
 import yaml
+import math
 import numpy as np
 
 from Logger import Logger as log
@@ -78,20 +79,20 @@ class Chain:
 
         # ATTEMPTING to find base and tip bodies
         for body_name in bodies:
-            # if len(bodies[body_name].parents) == 0:
-            #     if self._base_body == None:
-            #         self._base_body = bodies[body_name]
-            #     else:
-            #         raise ValueError("Found two Base bodies" +
-            #                          " within the given CHAIN! Cannot generate the Chain.")
+            if len(bodies[body_name].parents) == 0:
+                if self._base_body == None:
+                    self._base_body = bodies[body_name]
+                else:
+                    raise ValueError("Found two Base bodies" +
+                                     " within the given CHAIN! Cannot generate the Chain.")
 
-            if len(bodies[body_name].parents) > 0:
-                if bodies[body_name].parents[0] == 'WORLD' or bodies[body_name].parents[0] == 'world':
-                    if self._base_body == None:
-                        self._base_body = bodies[body_name]
-                    else:
-                        raise ValueError("Found two Base bodies" +
-                                         " within the given CHAIN! Cannot generate the Chain.")
+            # if len(bodies[body_name].parents) > 0:
+            #     if bodies[body_name].parents[0] == 'WORLD' or bodies[body_name].parents[0] == 'world':
+            #         if self._base_body == None:
+            #             self._base_body = bodies[body_name]
+            #         else:
+            #             raise ValueError("Found two Base bodies" +
+            #                              " within the given CHAIN! Cannot generate the Chain.")
 
             if len(bodies[body_name].children) == 0:
                 if self._tip_body == None:
@@ -109,6 +110,14 @@ class Chain:
             raise ValueError("No Base body found" +
                              " within the given CHAIN! Cannot generate the Chain.")
 
+        for body_key, body_value in self._bodies.items():
+            body_value.rotMat = self._eulerAnglesToRotationMatrix([body_value.location["orientation"]["r"],
+                                                                   body_value.location["orientation"]["p"],
+                                                                   body_value.location["orientation"]["y"]])
+            # log.debug(body_value.rotMat)
+
+        log.warning(self._eulerAnglesToRotationMatrix([1.57, 0, 0]))
+
     def getBaseBody(self):
         """Get the Base body in the chain.
 
@@ -116,6 +125,22 @@ class Chain:
             Body -- Returns the base body in the chain
         """
         return self._base_body
+
+    def getBodies(self):
+        """Get all Bodies as key-value pair
+
+        Returns:
+            {dict} -- Return list of all the bodies in this chain
+        """
+        return self._bodies
+
+    def getJoints(self):
+        """Get all Joints as key-value pair
+
+        Returns:
+            {dict} -- Return list of all the Joints in this chain
+        """
+        return self._joints
 
     def getTipBody(self):
         """Get the Tip body in the chain.
@@ -147,6 +172,23 @@ class Chain:
         """
         return self._joints.get(name)
 
+    def _eulerAnglesToRotationMatrix(self, theta):
+        R_x = np.array([[1,         0,                  0],
+                        [0,         math.cos(theta[0]), -math.sin(theta[0])],
+                        [0,         math.sin(theta[0]), math.cos(theta[0])]
+                        ])
+        R_y = np.array([[math.cos(theta[1]),    0,      math.sin(theta[1])],
+                        [0,                     1,      0],
+                        [-math.sin(theta[1]),   0,      math.cos(theta[1])]
+                        ])
+        R_z = np.array([[math.cos(theta[2]),    -math.sin(theta[2]),    0],
+                        [math.sin(theta[2]),    math.cos(theta[2]),     0],
+                        [0,                     0,                      1]
+                        ])
+        R = np.dot(R_z, np.dot(R_y, R_x))
+
+        return R
+
     def __str__(self):
         """String print, this function helps in printing 
         stringified version of class object
@@ -155,6 +197,8 @@ class Chain:
             string -- YAML equvivalent of the object
         """
         return yaml.dump(self)
+
+    # Calculates Rotation Matrix given euler angles.
 
 
 class Body:

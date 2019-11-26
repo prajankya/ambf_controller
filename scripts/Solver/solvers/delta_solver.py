@@ -15,10 +15,10 @@ class Delta(BaseSolver):  # this name would be used as identifier for type of ro
         #raise InvalidChainError()
         pass
 
-    def solve_for_fk(self, joint_states):
+    def solve_for_fk_pos(self, joint_states):
         print("TODO: Implement FK solver")
-        return joint_states
+        pass
 
-    def solve_for_ik(self, tip_6DOF):
+    def solve_for_ik_pos(self, tip_Pose):
         print("TODO: Implement IK solver")
-        return tip_6DOF
+        pass

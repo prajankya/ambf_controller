@@ -35,13 +35,14 @@ class BaseSolver(object):
         raise NotImplementedError
 
     @abstractmethod
-    def solve_for_fk(self, joint_states):
+    def solve_for_fk_pos(self, joint_states):
         """This method is expected to be implemented by all solvers. This is the
         method is called whenever the Forward kinematics is required to be solved.
 
         Arguments:
             joint_states {array} -- Array of all the joint states
-
+        Returns:
+            pose {Pose} -- Returns Tip Pose (of type Solver.Pose)
         Raises:
             NotImplementedError: This function needs to be implemented
             by the sub class.
@@ -49,15 +50,19 @@ class BaseSolver(object):
         raise NotImplementedError
 
     @abstractmethod
-    def solve_for_ik(self, tip_6DOF):
+    def solve_for_ik_pos(self, tip_Pose):
         """This method is expected to be implemented by all solvers. This is the
         method is called whenever the Inverse kinematics is required to be solved.
 
         Arguments:
-            tip_6DOF {array/dict} -- the Tip 6DOF (x,y,z,ax,ay,az)
-
+            tip_Pose {Pose} -- the Tip Pose (x,y,z,ax,ay,az) of type Solver.Pose
+        Returns:
+            joint_states {array} -- Array of all the joint states
         Raises:
             NotImplementedError: This function needs to be implemented
             by the sub class.
         """
         raise NotImplementedError
+
+    # Velocity solvers are not in Current scope of the project
+    # def solve_for_ik_vel(self)

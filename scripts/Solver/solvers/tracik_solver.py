@@ -5,7 +5,7 @@ from Solver import InvalidChainError
 import PyKDL as kdl
 
 
-class Tracik(BaseSolver):  # this name would be used as identifier for type of robot "TRACIK"
+class Tracik(BaseSolver):  # this name would be used as identifier for type of solver "TRACIK"
     """Kinematics solver using TRAC-IK for Serial Robots
     """
     # implementing using PyKDL
@@ -16,9 +16,10 @@ class Tracik(BaseSolver):  # this name would be used as identifier for type of r
         # self.chain will have the Kinematics chain
         # TODO : Validate Chain to be serial
         # kdl_chain = kdl.Chain()
-
-    def solve_for_fk(self, joint_states):
         pass
 
-    def solve_for_ik(self, tip_6DOF):
+    def solve_for_fk_pos(self, joint_states):
+        pass
+
+    def solve_for_ik_pos(self, tip_Pose):
         pass

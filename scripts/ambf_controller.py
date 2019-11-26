@@ -3,13 +3,15 @@
 import sys
 
 import rospy
-from geometry_msgs.msg import Twist
+from geometry_msgs.msg import Pose
+from std_msgs.msg import Float64MultiArray
 
 import yaml
 from ambf_client import Client  # Import the Client from ambf_client package
+from PyKDL import Rotation
 from colorama import Fore, Back, Style, init
 
-from Solver import SolverCollection, Logger as log, Chain
+from Solver import SolverCollection, Logger as log, Chain, Pose as SolverPose
 
 
 class AMBF_controller:
@@ -64,30 +66,45 @@ class AMBF_controller:
         # and initiates a shared pool of threads for bi-directional communication
         self.ambf_client.connect()
 
-        log.debug(self.chain.getBaseBody().name)
         # Get handle to set joint positions to
         self.robot_handle = self.ambf_client.get_obj_handle(
             self.chain.getBaseBody().name)
 
+        self.robot_tip_handle = self.ambf_client.get_obj_handle(
+            self.chain.getTipBody().name)
+
         # =============================================================================== Start ROS comm
 
-        rospy.Subscriber("/ambf/setPose", Twist, self.set_pose_callback)
-        rospy.spin()
+        rospy.Subscriber("/ambf/setPose", Pose, self.set_pose_callback)
+        rospy.Subscriber("/ambf/setJointParams",
+                         Float64MultiArray, self.set_joint_params_callback)
 
-        rospy.Subscriber("/ambf/setJointParams", Twist,
-                         self.set_joint_params_callback)
         rospy.spin()
 
     def set_pose_callback(self, msg):
-        log.debug(msg)
-        joint_states = self.solver.solve_for_ik(msg)
+        # Build a Pose
+        pose = SolverPose(msg.position.x, msg.position.y, msg.position.z,
+                          msg.orientation.x, msg.orientation.y, msg.orientation.z, msg.orientation.w)
+
+        joint_states = self.solver.solve_for_ik_pos(pose)
+        log.info("Joint States Calculated:")
+        log.info(joint_states)
         i = 0
         for joint_value in joint_states:
             self.robot_handle.set_joint_pos(i, joint_value)
             i = i+1
 
     def set_joint_params_callback(self, msg):
-        log.debug(msg)
+        pose = self.solver.solve_for_fk_pos(msg.data)
+        log.info("Pose:")
+        log.info(pose)
+        i = 0
+        for joint_value in msg.data:
+            self.robot_handle.set_joint_pos(i, joint_value)
+            i = i+1
+        pose2 = self.robot_tip_handle.get_pose()
+        log.info("Pose2:")
+        log.info(pose2)
 
 
 if __name__ == '__main__':

@@ -408,9 +408,9 @@ JOINT base-link1:
     high: 0.785
     low: -0.785
   controller:
-    D: 2.002
+    D: 5.0
     I: 0
-    P: 1001.0
+    P: 60.0
   type: revolute
 JOINT link1-link2:
   name: link1-link2
@@ -436,9 +436,9 @@ JOINT link1-link2:
     high: 0.785
     low: -0.785
   controller:
-    D: 4.0
+    D: 5.0
     I: 0
-    P: 2000.0
+    P: 60.0
   type: revolute
 JOINT link2-link3:
   name: link2-link3
@@ -464,9 +464,9 @@ JOINT link2-link3:
     high: 0.785
     low: -0.785
   controller:
-    D: 4.0
+    D: 5.0
     I: 0
-    P: 2000.0
+    P: 60.0
   type: revolute
 JOINT link3-link4:
   name: link3-link4
@@ -492,9 +492,9 @@ JOINT link3-link4:
     high: 0.785
     low: -0.785
   controller:
-    D: 4.0
+    D: 5.0
     I: 0
-    P: 2000.0
+    P: 60.0
   type: revolute
 JOINT link4-link5:
   name: link4-link5
@@ -520,9 +520,9 @@ JOINT link4-link5:
     high: 0.785
     low: -0.785
   controller:
-    D: 4.0
+    D: 5.0
     I: 0
-    P: 2000.0
+    P: 60.0
   type: revolute
 JOINT link5-link6:
   name: link5-link6
@@ -548,9 +548,9 @@ JOINT link5-link6:
     high: 0.785
     low: -0.785
   controller:
-    D: 4.0
+    D: 5.0
     I: 0
-    P: 2000.0
+    P: 60.0
   type: revolute
 JOINT link6-link7:
   name: link6-link7
@@ -576,7 +576,7 @@ JOINT link6-link7:
     high: 0.785
     low: -0.785
   controller:
-    D: 4.0
+    D: 5.0
     I: 0
-    P: 2000.0
+    P: 60.0
   type: revolute

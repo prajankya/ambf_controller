@@ -17,7 +17,7 @@ print('\n\n----')
 print("List of Objects")
 print(_client.get_obj_names())
 
-_handle = _client.get_obj_handle('l1')
+_handle = _client.get_obj_handle('base')
 
 time.sleep(0.2)
 print('\n\n----')
@@ -30,19 +30,18 @@ print('\n\n----')
 
 print('\n\n----')
 
-print('Number of Joints in l1:')
+print('Number of Joints in base:')
 print(_handle.get_num_joints())
 
-print('Name of l1\'s children:')
+print('Name of base\'s children:')
 print(_handle.get_joint_names())
 
-# _handle.set_joint_effort(0, 20)
 _handle.set_joint_pos(0, 0.0)
-time.sleep(1)
-_handle.set_joint_pos(0, 1.57)
-time.sleep(1)
-_handle.set_joint_pos(0, 3.14)
-time.sleep(1)
-_handle.set_joint_pos(0, -1.57)
+_handle.set_joint_pos(1, 0.0)
+_handle.set_joint_pos(2, 0.0)
+_handle.set_joint_pos(3, 0.0)
+_handle.set_joint_pos(4, 0.1)
+_handle.set_joint_pos(5, 0.0)
+# _handle.set_joint_pos(6, 0.0)
 
 time.sleep(10)

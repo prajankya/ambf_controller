@@ -2,7 +2,6 @@
 import PyKDL as kdl
 import yaml
 
-M_PI = 3.142
 
 yaml_file_data = None
 
@@ -68,4 +67,5 @@ output_frame = kdl.Frame()
 jointParameters = kdl.JntArray(chain.getNrOfJoints())
 FKSolver.JntToCart(jointParameters, output_frame)
 
+print("Final frame :---")
 print(output_frame)

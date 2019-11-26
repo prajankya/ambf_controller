@@ -191,8 +191,6 @@ class Chain:
         """
         return yaml.dump(self)
 
-    # Calculates Rotation Matrix given euler angles.
-
 
 class Body:
     """This class defined a generic body which is equivalent to links 

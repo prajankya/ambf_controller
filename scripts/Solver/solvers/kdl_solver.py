@@ -19,6 +19,8 @@ class KDL(BaseSolver):  # this name would be used as identifier for type of solv
         self.q_min = kdl.JntArray(len(_chain.getJoints()))
         self.q_max = kdl.JntArray(len(_chain.getJoints()))
 
+        old_pos = kdl.Vector(0, 0, 0)
+
         index = 0
         while(len(body.child_joints) != 0):  # Last link
             # Error if this robot is not a serial robot.
@@ -45,19 +47,20 @@ class KDL(BaseSolver):  # this name would be used as identifier for type of solv
                                 float(joint.parent_pivot['z']))
 
             # TODO: If Joint.client_pivot is set, need to add it to the Frame below
-            frame = kdl.Frame(rot, trans + trans2)
+            frame = kdl.Frame(rot, trans + trans2 - old_pos)
+            old_pos = trans - trans2
 
-            kdlJoint = kdl.Joint.None  # Default Joint Axis
+            kdlJoint = kdl.Joint()  # Default Joint Axis
 
             if joint.parent_axis['x']:
                 kdlJoint = kdl.Joint(
                     kdl.Joint.RotX, scale=joint.parent_axis['x'])
             elif joint.parent_axis['y']:
                 kdlJoint = kdl.Joint(
-                    kdl.Joint.RotX, scale=joint.parent_axis['y'])
+                    kdl.Joint.RotY, scale=joint.parent_axis['y'])
             elif joint.parent_axis['z']:
                 kdlJoint = kdl.Joint(
-                    kdl.Joint.RotX, scale=joint.parent_axis['z'])
+                    kdl.Joint.RotZ, scale=joint.parent_axis['z'])
 
             # Add to KDL
             kdlChain.addSegment(kdl.Segment(kdlJoint, frame))

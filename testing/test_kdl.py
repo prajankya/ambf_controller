@@ -13,6 +13,8 @@ chain = kdl.Chain()
 with open(yaml_file, 'rb') as f:
     yaml_file_data = yaml.load(f)
 
+old_pos = kdl.Vector(0, 0, 0)
+
 for joint_name in yaml_file_data['joints']:
     # Get all variables
     joint_data = yaml_file_data[joint_name]
@@ -38,22 +40,23 @@ for joint_name in yaml_file_data['joints']:
                         float(joint_data['parent pivot']['z']))
 
     # TODO: If Joint['client pivot'] is set, need to add it to the Frame below
-    frame = kdl.Frame(rot, trans + trans2)
+    frame = kdl.Frame(rot, trans + trans2 - old_pos)
+    old_pos = trans - trans2
 
-    print(frame)
-    print("..............")
+    # print(frame)
+    # print("..............")
 
-    joint = kdl.Joint.None  # Default Joint Axis
+    kdlJoint = kdl.Joint()  # Default Joint Axis
 
     if joint_data['parent axis']['x']:
         joint = kdl.Joint(
             kdl.Joint.RotX, scale=joint_data['parent axis']['x'])
     elif joint_data['parent axis']['y']:
         joint = kdl.Joint(
-            kdl.Joint.RotX, scale=joint_data['parent axis']['y'])
+            kdl.Joint.RotY, scale=joint_data['parent axis']['y'])
     elif joint_data['parent axis']['z']:
         joint = kdl.Joint(
-            kdl.Joint.RotX, scale=joint_data['parent axis']['z'])
+            kdl.Joint.RotZ, scale=joint_data['parent axis']['z'])
 
     chain.addSegment(kdl.Segment(joint, frame))
 
@@ -65,6 +68,14 @@ FKSolver = kdl.ChainFkSolverPos_recursive(chain)
 output_frame = kdl.Frame()
 
 jointParameters = kdl.JntArray(chain.getNrOfJoints())
+jointParameters[0] = 0
+jointParameters[1] = 0
+jointParameters[2] = 0
+jointParameters[3] = 0
+jointParameters[4] = 0
+jointParameters[5] = 0
+jointParameters[6] = 1.57
+
 FKSolver.JntToCart(jointParameters, output_frame)
 
 print("Final frame :---")

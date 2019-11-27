@@ -58,7 +58,7 @@ class AMBF_controller:
         log.debug("Loaded Solver >> " + self.solver.name)
 
         rospy.Subscriber("/ambf/validate", Pose, self.set_pose_callback)
-                
+
         # =============================================================================== Connect to AMBF
 
         # Create a instance of the client
@@ -82,39 +82,32 @@ class AMBF_controller:
                          Float64MultiArray, self.set_joint_params_callback)
 
         rate = rospy.Rate(10)
-
         while not rospy.is_shutdown():
-            # print(self.robot_handle.get_all_joint_pos())
-        
-            # for i in range(4):
-            #     print("I:" + str(i) + '>' + str("%5.4f" % self.robot_handle.get_joint_pos(i)))
-            #     i = i+1
-            # print("------------------------")
+            print(self.robot_tip_handle.get_pos())
             rate.sleep()
-            #rospy.sp
+        
+        # rospy.spin()
 
     def set_pose_callback(self, msg):
         # Build a Pose
         pose = SolverPose(msg.position.x, msg.position.y, msg.position.z,
                           msg.orientation.x, msg.orientation.y, msg.orientation.z, msg.orientation.w)
-
-        joint_states = self.solver.solve_for_ik_pos(pose)
-        log.info("Joint States Calculated:")
-        log.info(joint_states)
+        
+        self.solver.set_current_jointstates(self.robot_handle.get_all_joint_pos())
+        joint_states = self.solver.solve_for_ik_pos(pose, )
+        
         i = 0
         for joint_value in joint_states:
             self.robot_handle.set_joint_pos(i, joint_value)
-            i = i+1
+            i += 1
 
     def set_joint_params_callback(self, msg):
         pose = self.solver.solve_for_fk_pos(msg.data)
-        log.info("Pose:")
+        log.info("Pose calculated:")
         log.info(pose)
-        
-        i = 0
-        for joint_value in msg.data:
-            self.robot_handle.set_joint_pos(i, joint_value)
-            i = i+1
+        for i in range(len(msg.data)):
+            self.robot_handle.set_joint_pos(i, msg.data[i])
+
 
 if __name__ == '__main__':
     # Globals

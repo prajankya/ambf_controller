@@ -32,8 +32,8 @@ class KDL(BaseSolver):  # this name would be used as identifier for type of solv
 
             # From Joint (Location of joint on parent body)
             trans = kdl.Vector(float(joint.parent_pivot['x']),
-                                float(joint.parent_pivot['y']),
-                                float(joint.parent_pivot['z']))
+                               float(joint.parent_pivot['y']),
+                               float(joint.parent_pivot['z']))
 
             # From Joint (Location of joint on child body)
             trans2 = kdl.Vector(float(joint.child_pivot['x']),
@@ -99,14 +99,14 @@ class KDL(BaseSolver):  # this name would be used as identifier for type of solv
         return pose
 
     def solve_for_ik_pos(self, tip_Pose):
-        log.error("TODO: Implement IK solver")
-
         # The recursive algorithm need an initial guess, a good one can be
-        # in the middle of limits
+        # in the middle of limits, or use joint states from AMBF
         q_init = kdl.JntArray(self.kdlChain.getNrOfJoints())
 
-        for i in range(self.kdlChain.getNrOfJoints()):
-            q_init[i] = (self.q_max[i]-self.q_min[i])/2
+        current_states = self.get_current_jointstates()
+
+        for i in range(len(current_states)):
+            q_init[i] = current_states[i]
 
         desired_q = kdl.JntArray(self.kdlChain.getNrOfJoints())
 
@@ -114,8 +114,8 @@ class KDL(BaseSolver):  # this name would be used as identifier for type of solv
 
         rot.Quaternion(tip_Pose.qx, tip_Pose.qy, tip_Pose.qz, tip_Pose.qw)
 
-        tip_frame = kdl.Frame(rot, kdl.Vector(
-            tip_Pose.x, tip_Pose.y, tip_Pose.z))
+        tip_frame = kdl.Frame(rot,
+                              kdl.Vector(tip_Pose.x, tip_Pose.y, tip_Pose.z))
 
         self.IKPosSolver.CartToJnt(q_init, tip_frame, desired_q)
 

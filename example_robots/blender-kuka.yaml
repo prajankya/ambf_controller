@@ -410,7 +410,7 @@ JOINT base-link1:
   controller:
     D: 5.0
     I: 0
-    P: 60.0
+    P: 30.0
   type: revolute
 JOINT link1-link2:
   name: link1-link2
@@ -438,7 +438,7 @@ JOINT link1-link2:
   controller:
     D: 5.0
     I: 0
-    P: 60.0
+    P: 50.0
   type: revolute
 JOINT link2-link3:
   name: link2-link3

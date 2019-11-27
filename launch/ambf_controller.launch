@@ -8,5 +8,5 @@
     </node>
 
     <!-- Controller -->
-    <!-- <node pkg="ambf_controller" type="ambf_controller.py" name="ambf_controller" output="screen" args="$(arg yaml_file)"/> -->
+    <node pkg="ambf_controller" type="ambf_controller.py" name="ambf_controller" output="screen" args="$(arg yaml_file)"/>
 </launch>

@@ -7,6 +7,7 @@ class BaseSolver(object):
     """Base class that each solver must inherit from.
     """
     __metaclass__ = ABCMeta
+    _joint_states = []
 
     def __init__(self, chain):
         """This method will initialize super class instance of solver
@@ -64,5 +65,22 @@ class BaseSolver(object):
         """
         raise NotImplementedError
 
+    def set_current_jointstates(self, joint_states):
+        """Set Joint states, so any solver can use the current joint states from 
+        ambf for its calculation
+        
+        Arguments:
+            joint_states {Array} -- Array of jointstates
+        """
+        self._joint_states = joint_states
+
+    def get_current_jointstates(self):
+        """Get the current joint states, it will return empty array if no
+        Joint states were ever set by calling "set_current_jointstates".
+        
+        Returns:
+            Array -- Array of jointstates
+        """
+        return self._joint_states
     # Velocity solvers are not in Current scope of the project
     # def solve_for_ik_vel(self)

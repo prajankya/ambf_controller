@@ -30,25 +30,18 @@ class KDL(BaseSolver):  # this name would be used as identifier for type of solv
             # Get Joint Object of type Solver.Joint
             joint = _chain.getJoint(body.child_joints[0])
 
-            # From Body
-            rot = kdl.Rotation.EulerZYX(float(body.location['orientation']['y']),
-                                        float(
-                                            body.location['orientation']['p']),
-                                        float(body.location['orientation']['r']))
-
-            # From Body
-            trans = kdl.Vector(float(body.location['position']['x']),
-                               float(body.location['position']['y']),
-                               float(body.location['position']['z']))
-
             # From Joint (Location of joint on parent body)
-            trans2 = kdl.Vector(float(joint.parent_pivot['x']),
-                                float(joint.parent_pivot['y']),
-                                float(joint.parent_pivot['z']))
+            trans = kdl.Vector(float(joint.parent_pivot['x']),
+                               float(joint.parent_pivot['y']),
+                               float(joint.parent_pivot['z']))
 
-            # TODO: If Joint.client_pivot is set, need to add it to the Frame below
-            frame = kdl.Frame(rot, trans + trans2 - old_pos)
-            old_pos = trans - trans2
+            # From Joint (Location of joint on child body)
+            trans2 = kdl.Vector(float(joint.child_pivot['x']),
+                                float(joint.child_pivot['y']),
+                                float(joint.child_pivot['z']))
+
+            frame = kdl.Frame(trans + old_pos)
+            old_pos = trans2
 
             kdlJoint = kdl.Joint()  # Default Joint Axis
 
@@ -106,14 +99,14 @@ class KDL(BaseSolver):  # this name would be used as identifier for type of solv
         return pose
 
     def solve_for_ik_pos(self, tip_Pose):
-        log.error("TODO: Implement IK solver")
-
         # The recursive algorithm need an initial guess, a good one can be
-        # in the middle of limits
+        # in the middle of limits, or use joint states from AMBF
         q_init = kdl.JntArray(self.kdlChain.getNrOfJoints())
 
-        for i in range(self.kdlChain.getNrOfJoints()):
-            q_init[i] = (self.q_max[i]-self.q_min[i])/2
+        current_states = self.get_current_jointstates()
+
+        for i in range(len(current_states)):
+            q_init[i] = current_states[i]
 
         desired_q = kdl.JntArray(self.kdlChain.getNrOfJoints())
 
@@ -121,10 +114,9 @@ class KDL(BaseSolver):  # this name would be used as identifier for type of solv
 
         rot.Quaternion(tip_Pose.qx, tip_Pose.qy, tip_Pose.qz, tip_Pose.qw)
 
-        tip_frame = kdl.Frame(rot, kdl.Vector(
-            tip_Pose.x, tip_Pose.y, tip_Pose.z))
+        tip_frame = kdl.Frame(rot,
+                              kdl.Vector(tip_Pose.x, tip_Pose.y, tip_Pose.z))
 
-        # self.IKPosSolver.CartToJnt(q_init, tip_frame, desired_q)
         self.IKPosSolver.CartToJnt(q_init, tip_frame, desired_q)
 
         return desired_q

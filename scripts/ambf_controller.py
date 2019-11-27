@@ -57,6 +57,8 @@ class AMBF_controller:
 
         log.debug("Loaded Solver >> " + self.solver.name)
 
+        rospy.Subscriber("/ambf/validate", Pose, self.set_pose_callback)
+                
         # =============================================================================== Connect to AMBF
 
         # Create a instance of the client
@@ -79,7 +81,17 @@ class AMBF_controller:
         rospy.Subscriber("/ambf/setJointParams",
                          Float64MultiArray, self.set_joint_params_callback)
 
-        rospy.spin()
+        rate = rospy.Rate(10)
+
+        while not rospy.is_shutdown():
+            # print(self.robot_handle.get_all_joint_pos())
+        
+            # for i in range(4):
+            #     print("I:" + str(i) + '>' + str("%5.4f" % self.robot_handle.get_joint_pos(i)))
+            #     i = i+1
+            # print("------------------------")
+            rate.sleep()
+            #rospy.sp
 
     def set_pose_callback(self, msg):
         # Build a Pose
@@ -98,14 +110,11 @@ class AMBF_controller:
         pose = self.solver.solve_for_fk_pos(msg.data)
         log.info("Pose:")
         log.info(pose)
+        
         i = 0
         for joint_value in msg.data:
             self.robot_handle.set_joint_pos(i, joint_value)
             i = i+1
-        pose2 = self.robot_tip_handle.get_pose()
-        log.info("Pose2:")
-        log.info(pose2)
-
 
 if __name__ == '__main__':
     # Globals

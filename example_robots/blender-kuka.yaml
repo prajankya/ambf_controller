@@ -520,7 +520,7 @@ JOINT link4-link5:
     high: 0.785
     low: -0.785
   controller:
-    D: 5.0
+    D: 2.0
     I: 0
     P: 60.0
   type: revolute
@@ -576,7 +576,7 @@ JOINT link6-link7:
     high: 0.785
     low: -0.785
   controller:
-    D: 5.0
+    D: 0.5
     I: 0
     P: 60.0
   type: revolute

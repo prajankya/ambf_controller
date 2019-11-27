@@ -30,25 +30,18 @@ class KDL(BaseSolver):  # this name would be used as identifier for type of solv
             # Get Joint Object of type Solver.Joint
             joint = _chain.getJoint(body.child_joints[0])
 
-            # From Body
-            rot = kdl.Rotation.EulerZYX(float(body.location['orientation']['y']),
-                                        float(
-                                            body.location['orientation']['p']),
-                                        float(body.location['orientation']['r']))
-
-            # From Body
-            trans = kdl.Vector(float(body.location['position']['x']),
-                               float(body.location['position']['y']),
-                               float(body.location['position']['z']))
-
             # From Joint (Location of joint on parent body)
-            trans2 = kdl.Vector(float(joint.parent_pivot['x']),
+            trans = kdl.Vector(float(joint.parent_pivot['x']),
                                 float(joint.parent_pivot['y']),
                                 float(joint.parent_pivot['z']))
 
-            # TODO: If Joint.client_pivot is set, need to add it to the Frame below
-            frame = kdl.Frame(rot, trans + trans2 - old_pos)
-            old_pos = trans - trans2
+            # From Joint (Location of joint on child body)
+            trans2 = kdl.Vector(float(joint.child_pivot['x']),
+                                float(joint.child_pivot['y']),
+                                float(joint.child_pivot['z']))
+
+            frame = kdl.Frame(trans + old_pos)
+            old_pos = trans2
 
             kdlJoint = kdl.Joint()  # Default Joint Axis
 
@@ -124,7 +117,6 @@ class KDL(BaseSolver):  # this name would be used as identifier for type of solv
         tip_frame = kdl.Frame(rot, kdl.Vector(
             tip_Pose.x, tip_Pose.y, tip_Pose.z))
 
-        # self.IKPosSolver.CartToJnt(q_init, tip_frame, desired_q)
         self.IKPosSolver.CartToJnt(q_init, tip_frame, desired_q)
 
         return desired_q

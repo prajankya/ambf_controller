@@ -23,28 +23,21 @@ for joint_name in yaml_file_data['joints']:
     parent_body = yaml_file_data[joint_data['parent']]
     child_body = yaml_file_data[joint_data['child']]
 
-    # From Parent Body
-    rot = kdl.Rotation.EulerZYX(float(parent_body['location']['orientation']['y']),
-                                float(parent_body['location']
-                                      ['orientation']['p']),
-                                float(parent_body['location']['orientation']['r']))
-    # From Parent Body
-    trans = kdl.Vector(float(parent_body['location']['position']['x']),
-                       float(parent_body['location']
-                             ['position']['y']),
-                       float(parent_body['location']['position']['z']))
-
     # From Joint location on parent
-    trans2 = kdl.Vector(float(joint_data['parent pivot']['x']),
-                        float(joint_data['parent pivot']['y']),
-                        float(joint_data['parent pivot']['z']))
+    trans = kdl.Vector(float(joint_data['parent pivot']['x']),
+                       float(joint_data['parent pivot']['y']),
+                       float(joint_data['parent pivot']['z']))
 
-    # TODO: If Joint['client pivot'] is set, need to add it to the Frame below
-    frame = kdl.Frame(rot, trans + trans2 - old_pos)
-    old_pos = trans - trans2
+    # kdl.
+    trans2 = kdl.Vector(float(joint_data['child pivot']['x']),
+                        float(joint_data['child pivot']['y']),
+                        float(joint_data['child pivot']['z']))
 
-    # print(frame)
-    # print("..............")
+    frame = kdl.Frame(trans + old_pos)
+    old_pos = trans2
+
+    print(frame)
+    print("..............")
 
     kdlJoint = kdl.Joint()  # Default Joint Axis
 
@@ -63,20 +56,36 @@ for joint_name in yaml_file_data['joints']:
 
 print("Joints:", chain.getNrOfJoints())
 
-FKSolver = kdl.ChainFkSolverPos_recursive(chain)
 
 output_frame = kdl.Frame()
 
 jointParameters = kdl.JntArray(chain.getNrOfJoints())
-# jointParameters[0] = 0
-# jointParameters[1] = 0
-# jointParameters[2] = 0
-jointParameters[2] = 10
+jointParameters[0] = -0.57
+jointParameters[1] = 0.12
+jointParameters[2] = 0.75
+jointParameters[3] = 0.71
 # jointParameters[4] = 0
-# jointParameters[5] = 0
-# jointParameters[6] = 0
+# jointParameters[5] = 0.785
+# jointParameters[6] = -0.06
 
+FKSolver = kdl.ChainFkSolverPos_recursive(chain)
 FKSolver.JntToCart(jointParameters, output_frame)
 
 print("Final frame :---")
 print(output_frame)
+
+IKPosSolver = kdl.ChainIkSolverPos_LMA(chain)
+
+desired_q = kdl.JntArray(chain.getNrOfJoints())
+zero_q = kdl.JntArray(chain.getNrOfJoints())
+
+tip_frame = output_frame#kdl.Frame()
+
+IKPosSolver.CartToJnt(zero_q, tip_frame, desired_q)
+print("desired_q:--")
+print(desired_q)
+
+print("-------------------------")
+print("Diff ...")
+for i in range(chain.getNrOfJoints()):
+    print("%3.3f"%(jointParameters[i] - desired_q[i]))

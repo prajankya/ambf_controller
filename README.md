@@ -25,6 +25,14 @@ catkin_make
 
 ### Running
 
+Controller is a rosnode, it can be started using the following command.
+
+```bash
+rosrun ambf_controller ambf_controller ~/ambf/ambf_models/descriptions/multi-bodies/robots/blender-kuka.yaml
+```
+
+**Note** : The file name passed end of the command shown above should be the same robot which is currently loaded in AMBF.
+
 **To Move robot to a pose**
 ```bash
 rostopic pub /ambf/setPose geometry_msgs/Pose "position:

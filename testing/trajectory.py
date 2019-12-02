@@ -14,9 +14,10 @@ if __name__ == "__main__":
 
     ind = 1
     while ind < len(points):
-        intermediate_points_x = np.linspace(points[ind - 1][0], points[ind][0], 20)  # Break into 20 parts
-        intermediate_points_y = np.linspace(points[ind - 1][1], points[ind][1], 20)  # Break into 20 parts
-        intermediate_points_z = np.linspace(points[ind - 1][2], points[ind][2], 20)  # Break into 20 parts
+        # Interpolate (20 parts)
+        intermediate_points_x = np.linspace(points[ind - 1][0], points[ind][0], 20)
+        intermediate_points_y = np.linspace(points[ind - 1][1], points[ind][1], 20)
+        intermediate_points_z = np.linspace(points[ind - 1][2], points[ind][2], 20)
 
         rate = rospy.Rate(5) # 5 Hz
         for i in range(len(intermediate_points_x)):

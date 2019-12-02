@@ -1,17 +1,9 @@
-# ambf_controller - WIP
-RBE501 course project: Team 10
-
+# ambf_controller
 
 - All values in SI units (meters, radians, etc)
 
-## TODO
-- design logic for Iterative solution
-- generate 4x4 homogeneous matrix for each link if required in most of the solvers
-- solver for any two links in the chain.(currently only base<->tip works)
-
 ## Limitation
 - Currently the solvers support only a chain (One base and one tip, but can have multiple branches within).
-- Issue with config loader in AMBF : we have to use absolute path (With username) for meshes folder in example_robots file
 
 ## Changes to existing AMBF - YAML format
 - Added `solver` parameter to the root of the robot(please check example yaml in this repo)
@@ -33,14 +25,33 @@ catkin_make
 
 ### Running
 
-**For FK**
+**To Move robot to a pose**
 ```bash
-rosrun ambf_controller ambf_controller.py --fk "1,2,3"
+rostopic pub /ambf/setPose geometry_msgs/Pose "position:
+  x: 0.0
+  y: 0.0
+  z: 0.0
+orientation:
+  x: 0.0
+  y: 0.0
+  z: 0.0
+  w: 1.0"
 ```
 
-**For IK**
+**To Move robot with given Joint Parameters**
 ```bash
-rosrun ambf_controller ambf_controller.py --ik "1,2,3,4,5,6"
+rostopic pub /ambf/setJointParams std_msgs/Float64MultiArray "layout:
+  dim:  
+  - label: ''
+    size: 0
+    stride: 0
+  data_offset: 0
+data:   
+- 0.0
+- 0.0
+- 0.0
+- 0.0   
+- 0.0
+- 0.0
+- 0.0
 ```
-
-### Develop environment

@@ -83,7 +83,7 @@ class AMBF_controller:
 
         rate = rospy.Rate(10)
         while not rospy.is_shutdown():
-            print(self.robot_tip_handle.get_pos())
+            # print(self.robot_tip_handle.get_pos())
             rate.sleep()
         
         # rospy.spin()
@@ -94,7 +94,10 @@ class AMBF_controller:
                           msg.orientation.x, msg.orientation.y, msg.orientation.z, msg.orientation.w)
         
         self.solver.set_current_jointstates(self.robot_handle.get_all_joint_pos())
-        joint_states = self.solver.solve_for_ik_pos(pose, )
+        joint_states = self.solver.solve_for_ik_pos(pose)
+        log.info("Joint Params calculated:")
+        log.info(joint_states)
+        log.info(pose)
         
         i = 0
         for joint_value in joint_states:
